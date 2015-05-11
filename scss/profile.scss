@@ -1,0 +1,60 @@
+.profile-view{
+
+  $image-width: 46vw;
+  $image-max-width: 200px;
+
+  .profile-container {
+    margin: 0px auto;
+    margin-top: 6vh;
+    text-align: center;
+  }
+
+  .user-image {
+    border-radius: 50%;
+    border-top: 1px solid $dark;
+    padding:8px;
+    background-color:$light;
+    width:$image-width;
+    max-width: $image-max-width;
+  }
+
+  .user-name{
+    font-size: 20px;
+  }
+
+  .user-twitter{
+    margin-top: 5px;
+  }
+
+  .top-content{
+    border-bottom: 1px solid $dark;
+    position: relative;
+    height: 20vh;
+    margin-bottom: 25vh;
+  }
+
+  .user-background-image {
+    opacity: 0.5;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
+    background-size: cover !important;
+  }
+
+  .bottom-content{
+    padding:0px;
+    background-color: $light;
+    min-height:55vh;
+    position: relative;
+
+    .user-bio
+    {
+      text-align:center;
+      margin: 6px 30px;
+      padding: 6px 0px;
+    }
+  }
+}

@@ -1,0 +1,80 @@
+@mixin cssCalc($property, $expression) {
+	#{$property}: calc(#{$expression});
+}
+
+// App colors
+$top-bar-bg: $assertive;
+$top-bar-color: #444444; //FFFFFF
+$loading-color: #444444; //FFFFFF
+
+$content-bg: #EAEAEA;
+$content-color: #444444;
+$bookmarks-empty-color: #B3B2B2;
+$miscellaneous-icon-color: $assertive;
+$layouts-icon-color: $assertive;
+
+
+//Wordpress colors
+$read-more-color: $assertive;
+$wordpress-heading-color:  #444444;
+
+// Main menu colors
+$main-menu-bg: #444444;
+$main-menu-color: #FFFFFF;
+
+//Feed entries
+$entry-heading-color: #444444;
+$entry-title-color: #FFFFFF;
+
+// General reset styles
+*
+{
+	color: $content-color;
+}
+
+.bar.app-top-bar
+{
+	background-color: $top-bar-bg;
+
+	.title
+	{
+		color: $top-bar-color !important;
+		*
+		{
+			color: $top-bar-color !important;
+		}
+	}
+
+	.button
+	{
+		color: $top-bar-color !important;
+		*
+		{
+			color: $top-bar-color !important;
+		}
+	}
+}
+
+.loading-container .loading
+{
+	*
+	{
+		color: $loading-color;
+	}
+}
+
+.toggle-view-anchor
+{
+	height: $line-height-computed + $font-size-base;
+	line-height: $line-height-computed + $font-size-base;
+	position: absolute;
+	right: 0px;
+	text-transform: uppercase;
+	font-size: 14px;
+	font-weight: 500;
+	color: #444444;
+}
+
+// OTHER VARIABLES
+
+$images-path: "../img";

@@ -1,0 +1,29 @@
+.category-feeds-view
+{
+	background-color: $content-bg !important;
+
+	.category-feeds
+	{
+		.item
+		{
+			padding-left: 60px;
+		}
+
+		.item .thumbnail
+		{
+			position: absolute;
+			left: 10px;
+			width: 40px;
+		}
+
+		.item .title
+		{
+			font-weight:500;
+		}
+
+		.item .description
+		{
+			color: darken($stable, 30%);
+		}
+	}
+}
