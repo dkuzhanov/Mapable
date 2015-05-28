@@ -40,24 +40,24 @@ angular.module('your_app_name', ['ionic', 'angularMoment', 'your_app_name.contro
 //     templateUrl: "walkthrough.html",
 //     controller: 'WalkthroughCtrl'
 //   })
-// 
+//
 //   .state('login', {
 //     url: "/login",
 //     templateUrl: "login.html",
 //     controller: 'LoginCtrl'
 //   })
-// 
+//
 //   .state('signup', {
 //     url: "/signup",
 //     templateUrl: "signup.html",
 //     controller: 'SignupCtrl'
 //   })
-// 
+//
 //   .state('forgot-password', {
 //     url: "/forgot-password",
 //     templateUrl: "forgot-password.html",
 //     controller: 'ForgotPasswordCtrl'
-//   }) 
+//   })
 
   .state('app', {
     url: "/app",
@@ -68,36 +68,36 @@ angular.module('your_app_name', ['ionic', 'angularMoment', 'your_app_name.contro
 
 
 
-  //MISCELLANEOUS
-  .state('app.miscellaneous', {
-    url: "/miscellaneous",
-    views: {
-      'menuContent': {
-        templateUrl: "miscellaneous.html",
-        controller: 'MiscellaneousCtrl'
-      }
-    }
-  })
+  // //MISCELLANEOUS
+  // .state('app.miscellaneous', {
+  //   url: "/miscellaneous",
+  //   views: {
+  //     'menuContent': {
+  //       templateUrl: "miscellaneous.html",
+  //       controller: 'MiscellaneousCtrl'
+  //     }
+  //   }
+  // })
 
-  .state('app.maps', {
-    url: "/miscellaneous/maps",
-    views: {
-      'menuContent': {
-        templateUrl: "maps.html",
-        controller: 'MapsCtrl'
-      }
-    }
-  })
+  // .state('app.maps', {
+  //   url: "/miscellaneous/maps",
+  //   views: {
+  //     'menuContent': {
+  //       templateUrl: "maps.html",
+  //       controller: 'MapsCtrl'
+  //     }
+  //   }
+  // })
 
-  .state('app.image-picker', {
-    url: "/miscellaneous/image-picker",
-    views: {
-      'menuContent': {
-        templateUrl: "image-picker.html",
-        controller: 'ImagePickerCtrl'
-      }
-    }
-  })
+  // .state('app.image-picker', {
+  //   url: "/miscellaneous/image-picker",
+  //   views: {
+  //     'menuContent': {
+  //       templateUrl: "image-picker.html",
+  //       controller: 'ImagePickerCtrl'
+  //     }
+  //   }
+  // })
 
 
 
@@ -112,16 +112,27 @@ angular.module('your_app_name', ['ionic', 'angularMoment', 'your_app_name.contro
     }
   })
 
-  .state('app.tinder-cards', {
-    url: "/layouts/tinder-cards",
+  //LAYOUTS
+  .state('app.main', {
+    url: "/main",
     views: {
       'menuContent': {
-        templateUrl: "tinder-cards.html",
-        controller: 'TinderCardsCtrl'
+        templateUrl: "main.html",
+        controller: 'MainCtrl'
       }
     }
   })
 
+  // .state('app.tinder-cards', {
+  //   url: "/layouts/tinder-cards",
+  //   views: {
+  //     'menuContent': {
+  //       templateUrl: "tinder-cards.html",
+  //       controller: 'TinderCardsCtrl'
+  //     }
+  //   }
+  // })
+  //
   .state('app.slider', {
     url: "/layouts/slider",
     views: {
@@ -233,5 +244,4 @@ angular.module('your_app_name', ['ionic', 'angularMoment', 'your_app_name.contro
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/feeds-categories');
-        window.alert('010101');
 });

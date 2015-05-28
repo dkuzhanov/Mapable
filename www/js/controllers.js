@@ -537,4 +537,10 @@ angular.module('your_app_name.controllers', [])
 
 })
 
+// MAIN
+.controller('MainCtrl', function($scope) {
+
+})
+
+
 ;
