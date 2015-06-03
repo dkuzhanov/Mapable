@@ -8,7 +8,7 @@ angular.module('underscore', [])
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('your_app_name', ['ionic', 'angularMoment', 'your_app_name.controllers', 'your_app_name.directives', 'your_app_name.filters', 'your_app_name.services', 'your_app_name.factories', 'your_app_name.config', 'underscore', 'ngMap', 'ngResource', 'ngCordova', 'templates', 'slugifier', 'ionic.contrib.ui.tinderCards'])
+angular.module('your_app_name', ['ionic', 'angularMoment', 'leaflet-directive', 'your_app_name.controllers', 'your_app_name.directives', 'your_app_name.filters', 'your_app_name.services', 'your_app_name.factories', 'your_app_name.config', 'underscore', 'ngMap', 'ngResource', 'ngCordova', 'templates', 'slugifier', 'ionic.contrib.ui.tinderCards'])
 
 .run(function($ionicPlatform, PushNotificationsService) {
 
@@ -118,7 +118,7 @@ angular.module('your_app_name', ['ionic', 'angularMoment', 'your_app_name.contro
     views: {
       'menuContent': {
         templateUrl: "main.html",
-        controller: 'MainCtrl'
+        controller: 'MapController'
       }
     }
   })
