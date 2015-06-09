@@ -8,9 +8,9 @@
     <!-- build:css dist_css/styles.css -->
     <link href="css/ionic.app.css" rel="stylesheet">
     <link href="lib/ionic-contrib-tinder-cards/ionic.tdcards.css" rel="stylesheet">
-    <!-- endbuild -->
+    <link href="lib/leaflet/dist/leaflet.css" rel="stylesheet"  />
 
-    <script src="http://maps.google.com/maps/api/js"></script>
+    <!-- endbuild -->
     <!-- build:js dist_js/modules.js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <script src="lib/angular-resource/angular-resource.min.js"></script>
@@ -25,13 +25,12 @@
     <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
     <!-- endbuild -->
 
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
     <!-- MAP LIBRARIES -->
     <script src="lib/leaflet/dist/leaflet.js"></script>
     <script src="lib/angular-leaflet/dist/angular-leaflet-directive.min.js"></script>
-    <link href="lib/leaflet/dist/leaflet.css" rel="stylesheet" />
-
-    <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
 
     <!-- build:js dist_js/app.js -->
     <script src="dist/dist_js/app/app.js"></script>
@@ -43,6 +42,9 @@
     <script src="dist/dist_js/app/templates.js"></script>
     <script src="dist/dist_js/app/config.js"></script>
     <!-- endbuild -->
+
+
+
   </head>
   <body ng-app="your_app_name" ng-strict-di>
     <ion-nav-view></ion-nav-view>
