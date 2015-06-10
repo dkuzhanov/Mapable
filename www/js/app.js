@@ -8,7 +8,7 @@ angular.module('underscore', [])
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('your_app_name', ['ionic', 'angularMoment', 'leaflet-directive', 'your_app_name.controllers', 'your_app_name.directives', 'your_app_name.filters', 'your_app_name.services', 'your_app_name.factories', 'your_app_name.config', 'underscore', 'ngMap', 'ngResource', 'ngCordova', 'templates', 'slugifier', 'ionic.contrib.ui.tinderCards'])
+angular.module('your_app_name', ['ionic', 'angularMoment', 'leaflet-directive', 'your_app_name.controllers', 'your_app_name.directives', 'your_app_name.filters', 'your_app_name.services', 'your_app_name.factories', 'your_app_name.config', 'underscore', 'ngMap', 'ngResource', 'ngCordova', 'templates', 'slugifier'])
 
 .run(function($ionicPlatform, PushNotificationsService) {
 
@@ -67,40 +67,6 @@ angular.module('your_app_name', ['ionic', 'angularMoment', 'leaflet-directive', 
   })
 
 
-
-  // //MISCELLANEOUS
-  // .state('app.miscellaneous', {
-  //   url: "/miscellaneous",
-  //   views: {
-  //     'menuContent': {
-  //       templateUrl: "miscellaneous.html",
-  //       controller: 'MiscellaneousCtrl'
-  //     }
-  //   }
-  // })
-
-  // .state('app.maps', {
-  //   url: "/miscellaneous/maps",
-  //   views: {
-  //     'menuContent': {
-  //       templateUrl: "maps.html",
-  //       controller: 'MapsCtrl'
-  //     }
-  //   }
-  // })
-
-  // .state('app.image-picker', {
-  //   url: "/miscellaneous/image-picker",
-  //   views: {
-  //     'menuContent': {
-  //       templateUrl: "image-picker.html",
-  //       controller: 'ImagePickerCtrl'
-  //     }
-  //   }
-  // })
-
-
-
   //LAYOUTS
   .state('app.layouts', {
     url: "/layouts",
@@ -123,16 +89,6 @@ angular.module('your_app_name', ['ionic', 'angularMoment', 'leaflet-directive', 
     }
   })
 
-  // .state('app.tinder-cards', {
-  //   url: "/layouts/tinder-cards",
-  //   views: {
-  //     'menuContent': {
-  //       templateUrl: "tinder-cards.html",
-  //       controller: 'TinderCardsCtrl'
-  //     }
-  //   }
-  // })
-  //
   .state('app.slider', {
     url: "/layouts/slider",
     views: {
@@ -243,5 +199,5 @@ angular.module('your_app_name', ['ionic', 'angularMoment', 'leaflet-directive', 
 ;
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/feeds-categories');
+  $urlRouterProvider.otherwise('/app/main');
 });

@@ -72,10 +72,6 @@ angular.module('your_app_name.controllers', [])
 	$scope.user = {};
 })
 
-// MISCELLANEOUS
-.controller('MiscellaneousCtrl', function($scope) {
-
-})
 
 .controller('RateApp', function($scope) {
 	$scope.rateApp = function(){
@@ -108,42 +104,6 @@ angular.module('your_app_name.controllers', [])
 	};
 })
 
-.controller('MapsCtrl', function($scope, $ionicLoading) {
-
-	$scope.info_position = {
-		lat: 43.07493,
-		lng: -89.381388
-	};
-
-	$scope.center_position = {
-		lat: 43.07493,
-		lng: -89.381388
-	};
-
-	$scope.my_location = "";
-
-	$scope.$on('mapInitialized', function(event, map) {
-		$scope.map = map;
-	});
-
-	$scope.centerOnMe= function(){
-		$scope.positions = [];
-
-		$ionicLoading.show({
-			template: 'Loading...'
-		});
-
-		// with this function you can get the user’s current position
-		// we use this plugin: https://github.com/apache/cordova-plugin-geolocation/
-		navigator.geolocation.getCurrentPosition(function(position) {
-			var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-			$scope.current_position = {lat: pos.k,lng: pos.D};
-			$scope.my_location = pos.k+", "+pos.D;
-			$scope.map.setCenter(pos);
-			$ionicLoading.hide();
-		});
-	};
-})
 
 .controller('AdsCtrl', function($scope, $ionicActionSheet, AdMob, iAd) {
 
@@ -356,53 +316,6 @@ angular.module('your_app_name.controllers', [])
 
 })
 
-// TINDER CARDS
-.controller('TinderCardsCtrl', function($scope, $http) {
-
-	$scope.cards = [];
-
-	$scope.addCard = function(img, name) {
-		var newCard = {image: img, name: name};
-		newCard.id = Math.random();
-		$scope.cards.unshift(angular.extend({}, newCard));
-	};
-
-	$scope.addCards = function(count) {
-		$http.get('http://api.randomuser.me/?results=' + count).then(function(value) {
-			angular.forEach(value.data.results, function (v) {
-				$scope.addCard(v.user.picture.large, v.user.name.first + " " + v.user.name.last);
-			});
-		});
-	};
-
-	$scope.addFirstCards = function() {
-		$scope.addCard("https://dl.dropboxusercontent.com/u/30675090/envato/tinder-cards/left.png","Nope");
-		$scope.addCard("https://dl.dropboxusercontent.com/u/30675090/envato/tinder-cards/right.png", "Yes");
-	};
-
-	$scope.addFirstCards();
-	$scope.addCards(5);
-
-	$scope.cardDestroyed = function(index) {
-		$scope.cards.splice(index, 1);
-		$scope.addCards(1);
-	};
-
-	$scope.transitionOut = function(card) {
-		console.log('card transition out');
-	};
-
-	$scope.transitionRight = function(card) {
-		console.log('card removed to the right');
-		console.log(card);
-	};
-
-	$scope.transitionLeft = function(card) {
-		console.log('card removed to the left');
-		console.log(card);
-	};
-})
-
 
 // BOOKMARKS
 .controller('BookMarksCtrl', function($scope, $rootScope, BookMarkService, $state) {
@@ -538,10 +451,53 @@ angular.module('your_app_name.controllers', [])
 
 
 // MAIN
-.controller("MapController", [ '$scope', function($scope) {
+.controller("MapController",  [ '$scope', '$http', 'leafletData', function($scope, $http, leafletData) {
     angular.extend($scope, {
-        defaults: {
-            //scrollWheelZoom: false
-        }
+		center: {
+			lat: 55.7029,
+			lng: 37.5313,
+			zoom: 14
+		},
+		defaults: {
+			      tileLayer: "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+			      tileLayerOptions: {
+			        opacity: 0.4,
+			        detectRetina: true,
+			        reuseTiles: true,
+			      },
+            scrollWheelZoom: false
+			}
     });
+
+	$scope.centerJSON = function() {
+            leafletData.getMap().then(function(map) {
+                var latlngs = [];
+                for (var i in $scope.geojson.data.features[0].geometry.coordinates) {
+                    var coord = $scope.geojson.data.features[0].geometry.coordinates[i];
+                    for (var j in coord) {
+                        var points = coord[j];
+                        for (var k in points) {
+                            latlngs.push(L.GeoJSON.coordsToLatLng(points[k]));
+                        }
+                    }
+                }
+                map.fitBounds(latlngs);
+            });
+        };
+		// Get the countries geojson data from a JSON
+        $http.get("json/JPN.geo.json").success(function(data, status) {
+            angular.extend($scope, {
+                geojson: {
+                    data: data,
+                    style: {
+                        fillColor: "green",
+                        weight: 2,
+                        opacity: 1,
+                        color: 'white',
+                        dashArray: '3',
+                        fillOpacity: 0.7
+                    }
+                }
+            });
+				});
 }]);
