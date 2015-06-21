@@ -454,18 +454,19 @@ angular.module('your_app_name.controllers', [])
 .controller("MapController",  [ '$scope', '$http', 'leafletData', function($scope, $http, leafletData) {
     angular.extend($scope, {
 		center: {
-			lat: 55.7029,
-			lng: 37.5313,
-			zoom: 14
+			lat: 30.7029,
+			lng: -97.5313,
+			zoom: 6
 		},
 		defaults: {
 			      tileLayer: "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
 			      tileLayerOptions: {
-			        opacity: 0.4,
+			        opacity: 1,
 			        detectRetina: true,
 			        reuseTiles: true,
 			      },
-            scrollWheelZoom: false
+            scrollWheelZoom: false,
+				zoomControl:true
 			}
     });
 
