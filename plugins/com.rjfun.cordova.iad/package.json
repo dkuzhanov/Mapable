@@ -1,0 +1,23 @@
+{
+    "version": "2.0.4",
+    "name": "com.rjfun.cordova.iad",
+    "cordova_name": "iAd PluginPro",
+    "description": "Single line javascript to show iAd banner and interstitial",
+    "license": "MIT",
+    "repo": "https://github.com/floatinghotpot/cordova-iad-pro.git",
+    "issue": "https://github.com/floatinghotpot/cordova-iad-pro/issues",
+    "keywords": [
+        "rjfun",
+        "ad",
+        "iad"
+    ],
+    "platforms": [
+        "ios"
+    ],
+    "engines": [
+        {
+            "name": "cordova",
+            "version": ">=3.0"
+        }
+    ]
+}
