@@ -1,0 +1,34 @@
+{
+    "version": "1.1.7",
+    "name": "org.pushandplay.cordova.apprate",
+    "cordova_name": "AppRate",
+    "description": "This plugin provide the \"rate this app\" functionality into your Cordova/Phonegap application\n    ",
+    "license": "Apache 2.0",
+    "repo": "https://github.com/pushandplay/cordova-plugin-apprate.git",
+    "issue": "https://github.com/pushandplay/cordova-plugin-apprate/issues",
+    "keywords": [
+        "cordova",
+        "phonegap",
+        "AppRate",
+        "App Rate",
+        "rate",
+        "iRate",
+        "rate in iTunes",
+        "write a review",
+        "rate us",
+        "rate my application"
+    ],
+    "platforms": [
+        "android",
+        "ios",
+        "blackberry10",
+        "wp8",
+        "windows8"
+    ],
+    "engines": [
+        {
+            "name": "cordova",
+            "version": ">=3.0.0"
+        }
+    ]
+}

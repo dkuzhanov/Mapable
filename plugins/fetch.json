@@ -1,0 +1,123 @@
+{
+    "org.apache.cordova.geolocation": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.geolocation"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "nl.x-services.plugins.socialsharing": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "org.pushandplay.cordova.apprate": {
+        "source": {
+            "type": "registry",
+            "id": "org.pushandplay.cordova.apprate"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.phonegap.plugins.PushPlugin": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/phonegap-build/PushPlugin.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.synconset.imagepicker": {
+        "source": {
+            "type": "registry",
+            "id": "com.synconset.imagepicker"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "org.apache.cordova.dialogs": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.dialogs"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "de.appplant.cordova.plugin.email-composer": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/katzer/cordova-plugin-email-composer.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.rjfun.cordova.iad": {
+        "source": {
+            "type": "registry",
+            "id": "com.rjfun.cordova.iad"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "org.apache.cordova.inappbrowser": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.inappbrowser"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "org.apache.cordova.globalization": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.globalization"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.google.playservices": {
+        "source": {
+            "type": "registry",
+            "id": "com.google.playservices"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.google.cordova.admob": {
+        "source": {
+            "type": "registry",
+            "id": "com.google.cordova.admob"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.rjfun.cordova.extension": {
+        "source": {
+            "type": "registry",
+            "id": "com.rjfun.cordova.extension"
+        }
+    },
+    "cordova-plugin-crosswalk-webview": {
+        "source": {
+            "type": "local",
+            "path": "engine/cordova-crosswalk-engine-c0.7.1"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "org.apache.cordova.splashscreen": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.splashscreen"
+        },
+        "is_top_level": true,
+        "variables": {}
+    }
+}

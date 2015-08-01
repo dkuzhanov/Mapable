@@ -6,12 +6,13 @@ apple_assets/
 
 node_modules/
 platforms/
-plugins/
-dist/
 .DS_Store
 www/js/templates.js
+<<<<<<< HEAD
 www/css/ionic.app.min.css
 www/css/ionic.app.css
 www/lib/
 
 *.log
+=======
+>>>>>>> origin/master
