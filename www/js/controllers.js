@@ -1,4 +1,4 @@
-angular.module('your_app_name.controllers', [])
+angular.module('MapAble.controllers', [])
 
 // APP
 .controller('AppCtrl', function($scope) {
@@ -459,46 +459,50 @@ angular.module('your_app_name.controllers', [])
 			zoom: 6
 		},
 		defaults: {
-			      tileLayer: "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+			      tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
 			      tileLayerOptions: {
 			        opacity: 1,
 			        detectRetina: true,
 			        reuseTiles: true,
 			      },
-            scrollWheelZoom: false,
-				zoomControl:true
+				doubleClickZoom: true,
+            scrollWheelZoom: true,
+				zoomControl:false
 			}
     });
-
-	$scope.centerJSON = function() {
-            leafletData.getMap().then(function(map) {
-                var latlngs = [];
-                for (var i in $scope.geojson.data.features[0].geometry.coordinates) {
-                    var coord = $scope.geojson.data.features[0].geometry.coordinates[i];
-                    for (var j in coord) {
-                        var points = coord[j];
-                        for (var k in points) {
-                            latlngs.push(L.GeoJSON.coordsToLatLng(points[k]));
-                        }
-                    }
-                }
-                map.fitBounds(latlngs);
-            });
-        };
-		// Get the countries geojson data from a JSON
+//center map to fit geojson
+	// $scope.centerJSON = function() {
+   //          leafletData.getMap().then(function(map) {
+   //              var latlngs = [];
+   //              for (var i in $scope.geojson.data.features[0].geometry.coordinates) {
+   //                  var coord = $scope.geojson.data.features[0].geometry.coordinates[i];
+   //                  for (var j in coord) {
+   //                      var points = coord[j];
+   //                      for (var k in points) {
+   //                          latlngs.push(L.GeoJSON.coordsToLatLng(points[k]));
+   //                      }
+   //                  }
+   //              }
+   //              map.fitBounds(latlngs);
+   //          });
+   //      };
+// Get the countries geojson data from a JSON
         $http.get("json/JPN.geo.json").success(function(data, status) {
             angular.extend($scope, {
                 geojson: {
                     data: data,
                     style: {
                         fillColor: "green",
-                        weight: 2,
+                        weight: 1,
                         opacity: 1,
-                        color: 'white',
+                        color: 'green',
                         dashArray: '3',
+								stroke: false,
+								clickable:false,
                         fillOpacity: 0.7
+								//disableClusteringAtZoom: 19
                     }
-                }
-            });
-				});
+             	}
+         });
+		});
 }]);

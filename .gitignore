@@ -13,3 +13,5 @@ www/js/templates.js
 www/css/ionic.app.min.css
 www/css/ionic.app.css
 www/lib/
+
+*.log
