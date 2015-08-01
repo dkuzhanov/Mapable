@@ -8,7 +8,7 @@ angular.module('underscore', [])
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('your_app_name', ['ionic', 'angularMoment', 'leaflet-directive', 'your_app_name.controllers', 'your_app_name.directives', 'your_app_name.filters', 'your_app_name.services', 'your_app_name.factories', 'your_app_name.config', 'underscore', 'ngMap', 'ngResource', 'ngCordova', 'templates', 'slugifier'])
+angular.module('MapAble', ['ionic', 'angularMoment', 'leaflet-directive', 'MapAble.controllers', 'MapAble.directives', 'MapAble.filters', 'MapAble.services', 'MapAble.factories', 'MapAble.config', 'underscore', 'ngMap', 'ngResource', 'ngCordova', 'templates', 'slugifier'])
 
 .run(['$ionicPlatform', 'PushNotificationsService', function($ionicPlatform, PushNotificationsService) {
 
@@ -1353,7 +1353,7 @@ $templateCache.put("wordpress_post.html","<ion-view class=\"post-view\">\r\n  <i
 $templateCache.put("partials/my-tab.html","<div class=\"tab-content\" ng-show=\"selected\" ng-transclude></div>\r\n");
 $templateCache.put("partials/my-tabs.html","<div class=\"item item-divider card-heding\">\r\n	<div class=\"tabs-striped tabs-background-dark tabs-color-stable\">\r\n		<div class=\"tabs\">\r\n			<a ng-repeat=\"tab in tabs\" ng-click=\"select(tab)\" ng-class=\"{ active: tab.selected }\" class=\"tab-item\">{{tab.title}}</a>\r\n		</div>\r\n	</div>\r\n</div>\r\n<div class=\"item item-body\">\r\n	<div class=\"tabs-content\" ng-transclude></div>\r\n</div>\r\n");
 $templateCache.put("partials/show-hide-password.html","<div class=\"show-hide-input\" ng-transclude>\r\n</div>\r\n<a class=\"toggle-view-anchor\" on-touch=\"toggleType($event)\">\r\n	<span ng-show=\"show\">HIDE</span>\r\n	<span ng-show=\"!show\">SHOW</span>\r\n</a>\r\n");}]);
-angular.module('your_app_name.config', [])
+angular.module('MapAble.config', [])
 .constant('WORDPRESS_API_URL', 'http://wordpress.startapplabs.com/blog/api/')
 .constant('GCM_SENDER_ID', '574597432927')
 

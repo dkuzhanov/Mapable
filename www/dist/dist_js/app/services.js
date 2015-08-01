@@ -1,4 +1,4 @@
-angular.module('your_app_name.services', [])
+angular.module('MapAble.services', [])
 
 .service('FeedList', ['$rootScope', 'FeedLoader', '$q', function ($rootScope, FeedLoader, $q){
 	this.get = function(feedSourceUrl) {
