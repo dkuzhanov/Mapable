@@ -450,59 +450,116 @@ angular.module('MapAble.controllers', [])
 })
 
 
-// MAIN
-.controller("MapController",  [ '$scope', '$http', 'leafletData', function($scope, $http, leafletData) {
-    angular.extend($scope, {
-		center: {
-			lat: 30.7029,
-			lng: -97.5313,
-			zoom: 6
-		},
-		defaults: {
-			      tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-			      tileLayerOptions: {
-			        opacity: 1,
-			        detectRetina: true,
-			        reuseTiles: true,
-			      },
-				doubleClickZoom: true,
-            scrollWheelZoom: true,
-				zoomControl:false
-			}
-    });
-//center map to fit geojson
-	// $scope.centerJSON = function() {
-   //          leafletData.getMap().then(function(map) {
-   //              var latlngs = [];
-   //              for (var i in $scope.geojson.data.features[0].geometry.coordinates) {
-   //                  var coord = $scope.geojson.data.features[0].geometry.coordinates[i];
-   //                  for (var j in coord) {
-   //                      var points = coord[j];
-   //                      for (var k in points) {
-   //                          latlngs.push(L.GeoJSON.coordsToLatLng(points[k]));
-   //                      }
-   //                  }
-   //              }
-   //              map.fitBounds(latlngs);
-   //          });
-   //      };
-// Get the countries geojson data from a JSON
-        $http.get("json/JPN.geo.json").success(function(data, status) {
-            angular.extend($scope, {
-                geojson: {
-                    data: data,
-                    style: {
-                        fillColor: "green",
-                        weight: 1,
-                        opacity: 1,
-                        color: 'green',
-                        dashArray: '3',
-								stroke: false,
-								clickable:false,
-                        fillOpacity: 0.7
-								//disableClusteringAtZoom: 19
-                    }
-             	}
-         });
-		});
-}]);
+.controller("MapController", [ '$scope', '$http', 'leafletData', function($scope, $http, leafletData) {
+        angular.extend($scope, {
+            japan: {
+                lat: 27.26,
+                lng: -78.86,
+                zoom: 2
+            },
+            defaults: {
+                scrollWheelZoom: false
+            }
+        });
+
+		var tileOptions = {
+			maxZoom: 20,  // max zoom to preserve detail on
+			tolerance: 5, // simplification tolerance (higher means simpler)
+			extent: 4096, // tile extent (both width and height)
+			buffer: 64,   // tile buffer on each side
+			debug: 0,      // logging level (0 to disable, 1 or 2)
+
+			indexMaxZoom: 0,        // max zoom in the initial tile index
+			indexMaxPoints: 100000, // max number of points per tile in the index
+		};
+
+		var tileIndex = geojsonvt(data,tileOptions);
+
+		function getGeojsonVectorTiles (data) {
+			window.alert("geovt")
+				 return  L.canvasTiles()
+						.params({ debug: false, padding: 5 })
+						.drawing(drawingOnCanvas);
+		};
+
+		function drawingOnCanvas(canvasOverlay, params) {
+				var bounds = params.bounds;
+				params.tilePoint.z = params.zoom;
+
+				var ctx = params.canvas.getContext('2d');
+				ctx.globalCompositeOperation = 'source-over';
+
+				console.log('getting tile z' + params.tilePoint.z + '-' + params.tilePoint.x + '-' + params.tilePoint.y);
+
+				var tile = tileIndex.getTile(params.tilePoint.z, params.tilePoint.x, params.tilePoint.y);
+				if (!tile) {
+						console.log('tile empty');
+						return;
+				}
+						ctx.clearRect(0, 0, params.canvas.width, params.canvas.height);
+
+						var features = tile.features;
+
+						ctx.strokeStyle = 'grey';
+						var pad = new L.Point(5,5)
+
+						for (var i = 0; i < features.length; i++) {
+							var feature = features[i],
+								type = feature.type;
+
+							ctx.fillStyle = feature.tags.color ? feature.tags.color : 'rgba(255,0,0,0.05)';
+							ctx.beginPath();
+
+							for (var j = 0; j < feature.geometry.length; j++) {
+								var geom = feature.geometry[j];
+
+								if (type === 1) {
+										ctx.arc(geom[0] * ratio + pad, geom[1] * ratio + pad, 2, 0, 2 * Math.PI, false);
+										continue;
+								}
+
+								for (var k = 0; k < geom.length; k++) {
+										var p = geom[k];
+										var extent = 4096;
+
+										var x = p[0] / extent * 256;
+										var y = p[1] / extent * 256;
+										if (k) ctx.lineTo(x  + pad, y   + pad);
+										else ctx.moveTo(x  + pad, y  + pad);
+								}
+							}
+
+							if (type === 3 || type === 1) ctx.fill('evenodd');
+							ctx.stroke();
+						}
+				};
+
+
+        function CenterMap() {
+            leafletData.getMap().then(function(map) {
+					window.alert("CenterMap")
+
+					getGeojsonVectorTiles(data).addTo(map);
+
+            });
+        };
+
+        // Get the countries geojson data from a JSON
+        $http.get("json/JPN.geo.json").success(function(status) {
+
+			CenterMap()
+				angular.extend($scope, {
+               //  geojson: {
+               //      data: data,
+               //      style: {
+               //          fillColor: "green",
+               //          weight: 2,
+               //          opacity: 1,
+               //          color: 'white',
+               //          dashArray: '3',
+               //          fillOpacity: 0.7
+               //      }
+               //  }
+            });
+        });
+      } ]);
