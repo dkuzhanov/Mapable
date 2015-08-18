@@ -474,9 +474,8 @@ angular.module('MapAble.controllers', [])
 		};
 
 		var tileIndex = geojsonvt(data,tileOptions);
-
+		var pad = 0;
 		function getGeojsonVectorTiles (data) {
-			window.alert("geovt")
 				 return  L.canvasTiles()
 						.params({ debug: false, padding: 5 })
 						.drawing(drawingOnCanvas);
@@ -501,7 +500,6 @@ angular.module('MapAble.controllers', [])
 						var features = tile.features;
 
 						ctx.strokeStyle = 'grey';
-						var pad = new L.Point(5,5)
 
 						for (var i = 0; i < features.length; i++) {
 							var feature = features[i],
@@ -537,10 +535,7 @@ angular.module('MapAble.controllers', [])
 
         function CenterMap() {
             leafletData.getMap().then(function(map) {
-					window.alert("CenterMap")
-
 					getGeojsonVectorTiles(data).addTo(map);
-
             });
         };
 
@@ -548,7 +543,7 @@ angular.module('MapAble.controllers', [])
         $http.get("json/JPN.geo.json").success(function(status) {
 
 			CenterMap()
-				angular.extend($scope, {
+				//angular.extend($scope, {
                //  geojson: {
                //      data: data,
                //      style: {
@@ -560,6 +555,6 @@ angular.module('MapAble.controllers', [])
                //          fillOpacity: 0.7
                //      }
                //  }
-            });
+            //});
         });
       } ]);

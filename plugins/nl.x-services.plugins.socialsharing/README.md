@@ -141,7 +141,7 @@ Just add the following xml to your `config.xml` to always use the latest version
 ```
 or to use an older version, hosted at phonegap build:
 ```xml
-<gap:plugin name="nl.x-services.plugins.socialsharing" version="4.3.0" />
+<gap:plugin name="nl.x-services.plugins.socialsharing" version="4.3.16" />
 ```
 
 SocialSharing.js is brought in automatically. Make sure though you include a reference to cordova.js in your index.html's head:
@@ -156,8 +156,8 @@ However, what exactly gets shared, depends on the application the user chooses t
 - Twitter: message, image (other filetypes are not supported), link (which is automatically shortened if the Twitter client deems it necessary).
 - Google+ / Hangouts (Android only): message, subject, link
 - Flickr: message, image (an image is required for this option to show up).
-- Facebook iOS: message, image (other filetypes are not supported), link.
 - Facebook Android: sharing a message is not possible. You can share either a link or an image (not both), but a description can not be prefilled. See [this Facebook issue which they won't solve](https://developers.facebook.com/x/bugs/332619626816423/). As an alternative you can use `shareViaFacebookWithPasteMessageHint` since plugin version 4.3.4. See below for details. Also note that sharing a URL on a non standard domain (like .fail) [may not work on Android](https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin/issues/253). Make sure you test this. You can use a [link shortener](https://goo.gl) to workaround this issue.
+- Facebook iOS: message, image (other filetypes are not supported), link. Beware that since a Fb update in April 2015 sharing a prefilled message is no longer possible when the Fb app is installed (like Android), see #344. Alternative: use `shareViaFacebookWithPasteMessageHint`.
 
 ### Using the share sheet
 Here are some examples you can copy-paste to test the various combinations:
@@ -194,15 +194,15 @@ Facebook
 <button onclick="window.plugins.socialsharing.shareViaFacebook('Message via Facebook', null /* img */, null /* url */, function() {console.log('share ok')}, function(errormsg){alert(errormsg)})">msg via Facebook (with errcallback)</button>
 ```
 
-Facebook with prefilled message - as a workaround for [this Facebook Android bug](https://developers.facebook.com/x/bugs/332619626816423/).
+Facebook with prefilled message - as a workaround for [this Facebook (Android) bug](https://developers.facebook.com/x/bugs/332619626816423/). BEWARE: it's against Facebooks policy to prefil the message, or even hint the user to prefill a message for them. [See this page for details.](https://developers.facebook.com/docs/apps/review/prefill)
 
 * On Android the user will see a Toast message with a message you control (default: "If you like you can paste a message from your clipboard").
-* On iOS this function behaves the same as `shareViaFacebook`.
+* On iOS this function used to behave the same as `shareViaFacebook`, but since 4.3.18 a short message is shown prompting the user to paste a message (like Android). This message is not shown in case the Fb app is not installed since the internal iOS Fb share widget still supports prefilling the message.
 ```html
 <button onclick="window.plugins.socialsharing.shareViaFacebookWithPasteMessageHint('Message via Facebook', null /* img */, null /* url */, 'Paste it dude!', function() {console.log('share ok')}, function(errormsg){alert(errormsg)})">msg via Facebook (with errcallback)</button>
 ```
 
-WhatsApp
+WhatsApp (note that on iOS when sharing an image and text, only the image is shared) - let's how WhatsApp creates a proper iOS 8 extension to fix this
 ```html
 <button onclick="window.plugins.socialsharing.shareViaWhatsApp('Message via WhatsApp', null /* img */, null /* url */, function() {console.log('share ok')}, function(errormsg){alert(errormsg)})">msg via WhatsApp (with errcallback)</button>
 ```
@@ -293,7 +293,7 @@ If you can't get the plugin to work, have a look at [this demo project](https://
 
 #### Notes about the successCallback (you can just ignore the callbacks if you like)
 Since version 3.8 the plugin passes a boolean to the successCallback to let the app know whether or not content was actually shared, or the share widget was closed by the user.
-On iOS this works as expected, but on Android some sharing targets may return false, even though sharing succeeded. This is not a limitation of the plugin, it's the target app which doesn't play nice.
+On iOS this works as expected (except for Facebook, in case the app is installed), but on Android some sharing targets may return false, even though sharing succeeded. This is not a limitation of the plugin, it's the target app which doesn't play nice.
 To make it more confusing, when sharing via SMS on Android, you'll likely always have the successCallback invoked. Thanks Google.
 
 #### Sharing multiple images (or other files)
@@ -314,6 +314,16 @@ window.plugins.socialsharing.share(
 ```
 
 Note that a lot of apps support sharing multiple files, but Twitter just doesn't accept more that one file.
+
+#### Saving images to the photo album (iOS only currently)
+Since version 4.3.16 of this plugin you can save an array of images to the camera roll:
+```js
+window.plugins.socialsharing.saveToPhotoAlbum(
+  ['https://www.google.nl/images/srpr/logo4w.png','www/image.gif'],
+  onSuccess, // optional success function
+  onError    // optional error function
+);
+```
 
 #### iOS quirk (with camera plugin)
 When using this plugin in the callback of the Phonegap camera plugin, wrap the call to `share()` in a `setTimeout()`.
