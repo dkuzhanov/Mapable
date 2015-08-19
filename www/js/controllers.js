@@ -452,14 +452,16 @@ angular.module('MapAble.controllers', [])
 
 .controller("MapController", [ '$scope', '$http', 'leafletData', function($scope, $http, leafletData) {
         angular.extend($scope, {
-            japan: {
+            center: {
                 lat: 27.26,
                 lng: -78.86,
                 zoom: 2
             },
-            defaults: {
-                scrollWheelZoom: false
-            }
+				layers: {
+					scrollWheelZoom: false,
+                    baselayers: {
+                    },
+                }
         });
 
 		var tileOptions = {
@@ -499,13 +501,14 @@ angular.module('MapAble.controllers', [])
 
 						var features = tile.features;
 
-						ctx.strokeStyle = 'grey';
+						ctx.strokeStyle = 'none';
+						ctx.lineWidth = 0.01;
 
 						for (var i = 0; i < features.length; i++) {
 							var feature = features[i],
 								type = feature.type;
 
-							ctx.fillStyle = feature.tags.color ? feature.tags.color : 'rgba(255,0,0,0.05)';
+							ctx.fillStyle = feature.tags.color ? feature.tags.color : 'rgba( 12,155,155,1)';
 							ctx.beginPath();
 
 							for (var j = 0; j < feature.geometry.length; j++) {
