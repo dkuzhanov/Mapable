@@ -695,7 +695,7 @@ angular.module('MapAble.controllers', [])
 			};
 
 			function getGeojsonVectorTiles (rawData, layerName) {
-			      window.alert(19)
+			      window.alert(17)
 					return  L.canvasTiles()
 							.params({ debug: false, padding: 5 , layer: rawData, LayerName: layerName })
 							.drawing(drawingOnCanvas);
@@ -704,12 +704,19 @@ angular.module('MapAble.controllers', [])
 		function drawingOnCanvas(canvasOverlay, params) {
 				var bounds = params.bounds;
 				params.tilePoint.z = params.zoom;
-
+				var _canvas = params.canvas;
 				var ctx = params.canvas.getContext('2d');
 				ctx.globalCompositeOperation = 'source-over';
-				//ctx.scale(2,2)
-				var scaleFactor = backingScale(ctx);
 
+				if ('devicePixelRatio' in window) {
+				  if (window.devicePixelRatio > 1) {
+					  _canvas.style.width = _canvas.width + 'px';
+					  _canvas.style.height = _canvas.height + 'px';
+					  _canvas.width *=2;
+					  _canvas.height *=2;
+					  ctx.scale(2,2);
+				  }
+			  };
 				console.log('getting tile z' + params.tilePoint.z + '-' + params.tilePoint.x + '-' + params.tilePoint.y);
 
 				var tile = params.layer.getTile(params.tilePoint.z, params.tilePoint.x, params.tilePoint.y);
@@ -721,18 +728,19 @@ angular.module('MapAble.controllers', [])
 
 						var features = tile.features;
 
-						ctx.strokeStyle = 'green';
+						ctx.strokeStyle = '#d1f7ff';
 						ctx.lineWidth = 0.5;
 
 						for (var i = 0; i < features.length; i++) {
 							var feature = features[i],
 							type = feature.type;
 
-							ctx.fillStyle = feature.tags.color ? feature.tags.color :  GetFeatureColor(params.layerName);//'rgba( 12,155,155,0.5)';
-
 							ctx.beginPath();
 
 							for (var j = 0; j < feature.geometry.length; j++) {
+								var color = GetFeatureColor(params.layerName)
+								ctx.fillStyle = feature.tags.color ? feature.tags.color :  color;//'rgba( 12,155,155,0.5)';
+
 								var geom = feature.geometry[j];
 								if (type === 1) {
 										ctx.arc(geom[0] * ratio + pad, geom[1] * ratio + pad, 2, 0, 2 * Math.PI, false);
@@ -760,21 +768,12 @@ angular.module('MapAble.controllers', [])
 				function GetFeatureColor(LayerName){
 					var color
 					var number = Math.floor(256 * Math.random())
-					color = 'rgba(' + number + ',' + number + ',150,0.5)'
+					color = 'rgba(' + number + ',' + number + ',56,1)'
 					//window.alert(color);
 					return color;
 				};
 
       } ]);
-
-		function backingScale(context) {
-				if ('devicePixelRatio' in window) {
-				  if (window.devicePixelRatio > 1) {
-						return window.devicePixelRatio;
-				  }
-				}
-				return 1;
-		}
 
 		// function createjsfile(filename) {
 		// 	 var fileref = document.createElement('script');
