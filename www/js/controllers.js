@@ -454,9 +454,9 @@ angular.module('MapAble.controllers', [])
 
 			angular.extend($scope, {
 				center: {
-				    lat: 47.26,
-				    lng: -2.86,
-				    zoom: 7
+				    lat: 37.26,
+				    lng: -97.86,
+				    zoom: 5
 				},
 				layers: {
 					scrollWheelZoom: false,
@@ -476,13 +476,13 @@ angular.module('MapAble.controllers', [])
 				indexMaxZoom: 0,        // max zoom in the initial tile index
 				indexMaxPoints: 10, // max number of points per tile in the index
 			};
+
 			var _BaseCountryLayer = geojsonvt(countriesData,tileOptions);
 			var _BaselandScapeLayer = geojsonvt(usSatesData, tileOptions);
 			var pad = 0;
 
 			CenterMap(_BaseCountryLayer, "CountriesBase")
-			CenterMap(_BaselandScapeLayer, "LandscapeBase")
-
+			//CenterMap(_BaselandScapeLayer, "LandscapeBase")
 
 			function CenterMap(rawData, layerName) {
 			   leafletData.getMap().then(function(map) {
@@ -491,13 +491,13 @@ angular.module('MapAble.controllers', [])
 			};
 
 			function getGeojsonVectorTiles (rawData, layerName) {
-			      window.alert(17)
+			      window.alert(16)
 					return  L.canvasTiles()
 							.params({ debug: false, padding: 5 , layer: rawData, LayerName: layerName })
 							.drawing(drawingOnCanvas);
 			};
 
-		function drawingOnCanvas(canvasOverlay, params) {
+			function drawingOnCanvas(canvasOverlay, params) {
 				var bounds = params.bounds;
 				params.tilePoint.z = params.zoom;
 				var _canvas = params.canvas;
@@ -513,19 +513,17 @@ angular.module('MapAble.controllers', [])
 					  ctx.scale(2,2);
 				  }
 			  };
-				console.log('getting tile z' + params.tilePoint.z + '-' + params.tilePoint.x + '-' + params.tilePoint.y);
-
+				//console.log('getting tile z' + params.tilePoint.z + '-' + params.tilePoint.x + '-' + params.tilePoint.y);
 				var tile = params.layer.getTile(params.tilePoint.z, params.tilePoint.x, params.tilePoint.y);
 				if (!tile) {
-						console.log('tile empty');
+						//console.log('tile empty');
 						return;
 				}
 						ctx.clearRect(0, 0, params.canvas.width, params.canvas.height);
-
-						var features = tile.features;
-
 						ctx.strokeStyle = '#d1f7ff';
 						ctx.lineWidth = 0.5;
+
+						var features = tile.features;
 
 						for (var i = 0; i < features.length; i++) {
 							var feature = features[i],
@@ -534,7 +532,8 @@ angular.module('MapAble.controllers', [])
 							ctx.beginPath();
 
 							for (var j = 0; j < feature.geometry.length; j++) {
-								var color = GetFeatureColor(params.layerName)
+								//window.alert(feature.tags.FIPS_CNTRY)
+								var color = GetFeatureColor(params.layerName, feature.tags)
 								ctx.fillStyle = feature.tags.color ? feature.tags.color :  color;//'rgba( 12,155,155,0.5)';
 
 								var geom = feature.geometry[j];
@@ -542,31 +541,56 @@ angular.module('MapAble.controllers', [])
 										ctx.arc(geom[0] * ratio + pad, geom[1] * ratio + pad, 2, 0, 2 * Math.PI, false);
 										continue;
 								}
-
 								for (var k = 0; k < geom.length; k++) {
 										var p = geom[k];
 										var extent = 4096;
-
 										var x = p[0] / extent * 256;
 										var y = p[1] / extent * 256;
 										if (k) ctx.lineTo(x  + pad, y   + pad);
 										else ctx.moveTo(x  + pad, y  + pad);
 								}
 							}
-
 							if (type === 3 || type === 1) ctx.fill('evenodd');
 							ctx.stroke();
 						}
 				};
 
 				//apply styles
-
-				function GetFeatureColor(LayerName){
+				function GetFeatureColor(LayerName, tags){
 					var color
-					var number = Math.floor(256 * Math.random())
-					color = 'rgba(' + number + ',' + number + ',56,1)'
-					//window.alert(color);
+					//window.alert(tags.FIPS_CNTRY);
+					if (LayerName === "CountriesBase") {
+						switch(tags.FIPS_CNTRY){
+						    case "US":
+						        color = 'rgba(250,0,0,1)';
+								  break;
+							 case "UK":
+    						   	color = 'rgba(0,250,0,1)';
+    								break;
+						    case "CA":
+								 color = 'rgba(0,250,124,1)';
+								 break;
+						    case "AU":
+								 color = 'rgba(0,25,250,1)';
+								 break;
+							 case "AS":
+								 color = 'rgba(120,25,250,1)';
+								 break;
+							 case "KZ":
+								 color = 'rgba(120,125,250,1)';
+								 break;
+							 case "UZ":
+ 								color = 'rgba(120,125,25,1)';
+ 								break;
+						    default:
+								 color = 'rgba(160,160,160,1)';
+								 break;
+						}
+					}
+					// var number = Math.floor(256 * Math.random())
+					// color = 'rgba(' + number + ',' + number + ',156,1)'
 					return color;
+
 				};
 
       } ]);
