@@ -11,8 +11,10 @@ www/js/templates.js
 <<<<<<< HEAD
 www/css/ionic.app.min.css
 www/css/ionic.app.css
-www/lib/
+//www/lib/
 
 *.log
 =======
 >>>>>>> origin/master
+
+www/js/controllers.js

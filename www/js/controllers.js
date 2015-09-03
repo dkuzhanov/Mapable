@@ -459,6 +459,7 @@ angular.module('MapAble.controllers', [])
 				    zoom: 5
 				},
 				layers: {
+					scale: true,
 					scrollWheelZoom: false,
 				   baselayers: {
 				   },
@@ -482,7 +483,7 @@ angular.module('MapAble.controllers', [])
 			var pad = 0;
 
 			CenterMap(_BaseCountryLayer, "CountriesBase")
-			//CenterMap(_BaselandScapeLayer, "LandscapeBase")
+			CenterMap(_BaselandScapeLayer, "LandscapeBase")
 
 			function CenterMap(rawData, layerName) {
 			   leafletData.getMap().then(function(map) {
