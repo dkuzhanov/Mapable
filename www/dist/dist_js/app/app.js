@@ -66,18 +66,6 @@ angular.module('MapAble', ['ionic', 'angularMoment', 'leaflet-directive', 'MapAb
     controller: 'AppCtrl'
   })
 
-
-  //LAYOUTS
-  .state('app.layouts', {
-    url: "/layouts",
-    views: {
-      'menuContent': {
-        templateUrl: "layouts.html",
-        controller: 'LayoutsCtrl'
-      }
-    }
-  })
-
   //LAYOUTS
   .state('app.main', {
     url: "/main",
@@ -85,6 +73,17 @@ angular.module('MapAble', ['ionic', 'angularMoment', 'leaflet-directive', 'MapAb
       'menuContent': {
         templateUrl: "main.html",
         controller: 'MapController'
+      }
+    }
+  })
+
+  //LAYOUTS
+  .state('app.layouts', {
+    url: "/layouts",
+    views: {
+      'menuContent': {
+        templateUrl: "layouts.html",
+        controller: 'MapController2'
       }
     }
   })

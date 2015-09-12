@@ -66,18 +66,6 @@ angular.module('MapAble', ['ionic', 'angularMoment', 'leaflet-directive', 'MapAb
     controller: 'AppCtrl'
   })
 
-
-  //LAYOUTS
-  .state('app.layouts', {
-    url: "/layouts",
-    views: {
-      'menuContent': {
-        templateUrl: "layouts.html",
-        controller: 'LayoutsCtrl'
-      }
-    }
-  })
-
   //LAYOUTS
   .state('app.main', {
     url: "/main",
@@ -85,6 +73,17 @@ angular.module('MapAble', ['ionic', 'angularMoment', 'leaflet-directive', 'MapAb
       'menuContent': {
         templateUrl: "main.html",
         controller: 'MapController'
+      }
+    }
+  })
+
+  //LAYOUTS
+  .state('app.layouts', {
+    url: "/layouts",
+    views: {
+      'menuContent': {
+        templateUrl: "layouts.html",
+        controller: 'MapController2'
       }
     }
   })
@@ -654,7 +653,7 @@ angular.module('MapAble.controllers', [])
 }])
 
 
-.controller("MapController", [ '$scope', '$http', 'leafletData', function($scope, $http, leafletData) {
+.controller("MapController", [ '$scope', '$log', '$http', 'leafletData', function($scope, $log, $http, leafletData) {
 
 			angular.extend($scope, {
 				center: {
@@ -663,9 +662,16 @@ angular.module('MapAble.controllers', [])
 				    zoom: 5
 				},
 				layers: {
-					scrollWheelZoom: false,
-				   baselayers: {
-				   },
+					scale: true,
+					scrollWheelZoom: false//,
+				   // baselayers: {
+				   // }
+				},
+				controls: {
+					scale: true,
+					fullscreen: {
+							  position: 'topleft'
+					}
 				}
 			});
 
@@ -681,7 +687,7 @@ angular.module('MapAble.controllers', [])
 				indexMaxPoints: 10, // max number of points per tile in the index
 			};
 
-			var _BaseCountryLayer = geojsonvt(countriesData,tileOptions);
+			var _BaseCountryLayer = geojsonvt(countriesData, tileOptions);
 			var _BaselandScapeLayer = geojsonvt(usSatesData, tileOptions);
 			var pad = 0;
 
@@ -689,129 +695,176 @@ angular.module('MapAble.controllers', [])
 			//CenterMap(_BaselandScapeLayer, "LandscapeBase")
 
 			function CenterMap(rawData, layerName) {
-			   leafletData.getMap().then(function(map) {
-					getGeojsonVectorTiles(rawData, layerName).addTo(map);
+
+				var _layer;
+				_layer = getGeojsonVectorTiles(rawData, layerName);
+
+				leafletData.getMap("map1").then(function(map) {
+					//window.alert(1)
+					_layer.addTo(map)
 			   });
 			};
 
 			function getGeojsonVectorTiles (rawData, layerName) {
-			      window.alert(16)
 					return  L.canvasTiles()
 							.params({ debug: false, padding: 5 , layer: rawData, LayerName: layerName })
 							.drawing(drawingOnCanvas);
 			};
 
-			function drawingOnCanvas(canvasOverlay, params) {
-				var bounds = params.bounds;
-				params.tilePoint.z = params.zoom;
-				var _canvas = params.canvas;
-				var ctx = params.canvas.getContext('2d');
-				ctx.globalCompositeOperation = 'source-over';
+      }
+	]
+)
 
-				if ('devicePixelRatio' in window) {
-				  if (window.devicePixelRatio > 1) {
-					  _canvas.style.width = _canvas.width + 'px';
-					  _canvas.style.height = _canvas.height + 'px';
-					  _canvas.width *=2;
-					  _canvas.height *=2;
-					  ctx.scale(2,2);
-				  }
-			  };
-				//console.log('getting tile z' + params.tilePoint.z + '-' + params.tilePoint.x + '-' + params.tilePoint.y);
-				var tile = params.layer.getTile(params.tilePoint.z, params.tilePoint.x, params.tilePoint.y);
-				if (!tile) {
-						//console.log('tile empty');
-						return;
-				}
-						ctx.clearRect(0, 0, params.canvas.width, params.canvas.height);
-						ctx.strokeStyle = '#d1f7ff';
-						ctx.lineWidth = 0.5;
+.controller("MapController2", [ '$scope', '$log', '$http', 'leafletData', function($scope, $log, $http, leafletData) {
 
-						var features = tile.features;
-
-						for (var i = 0; i < features.length; i++) {
-							var feature = features[i],
-							type = feature.type;
-
-							ctx.beginPath();
-
-							for (var j = 0; j < feature.geometry.length; j++) {
-								//window.alert(feature.tags.FIPS_CNTRY)
-								var color = GetFeatureColor(params.layerName, feature.tags)
-								ctx.fillStyle = feature.tags.color ? feature.tags.color :  color;//'rgba( 12,155,155,0.5)';
-
-								var geom = feature.geometry[j];
-								if (type === 1) {
-										ctx.arc(geom[0] * ratio + pad, geom[1] * ratio + pad, 2, 0, 2 * Math.PI, false);
-										continue;
-								}
-								for (var k = 0; k < geom.length; k++) {
-										var p = geom[k];
-										var extent = 4096;
-										var x = p[0] / extent * 256;
-										var y = p[1] / extent * 256;
-										if (k) ctx.lineTo(x  + pad, y   + pad);
-										else ctx.moveTo(x  + pad, y  + pad);
-								}
-							}
-							if (type === 3 || type === 1) ctx.fill('evenodd');
-							ctx.stroke();
-						}
-				};
-
-				//apply styles
-				function GetFeatureColor(LayerName, tags){
-					var color
-					//window.alert(tags.FIPS_CNTRY);
-					if (LayerName === "CountriesBase") {
-						switch(tags.FIPS_CNTRY){
-						    case "US":
-						        color = 'rgba(250,0,0,1)';
-								  break;
-							 case "UK":
-    						   	color = 'rgba(0,250,0,1)';
-    								break;
-						    case "CA":
-								 color = 'rgba(0,250,124,1)';
-								 break;
-						    case "AU":
-								 color = 'rgba(0,25,250,1)';
-								 break;
-							 case "AS":
-								 color = 'rgba(120,25,250,1)';
-								 break;
-							 case "KZ":
-								 color = 'rgba(120,125,250,1)';
-								 break;
-							 case "UZ":
- 								color = 'rgba(120,125,25,1)';
- 								break;
-						    default:
-								 color = 'rgba(160,160,160,1)';
-								 break;
-						}
+			angular.extend($scope, {
+				center2: {
+				    lat: 37.26,
+				    lng: -97.86,
+				    zoom: 5
+				},
+				layers2: {
+					scale: true,
+					scrollWheelZoom: false
+				},
+				controls2: {
+					scale: true,
+					fullscreen: {
+							  position: 'topleft'
 					}
-					// var number = Math.floor(256 * Math.random())
-					// color = 'rgba(' + number + ',' + number + ',156,1)'
-					return color;
+				}
+			});
 
-				};
+		  //Setting variables
+			var tileOptions = {
+				tilesize: 128,
+				maxZoom: 15,  // max zoom to preserve detail on
+				tolerance: 5, // simplification tolerance (higher means simpler)
+				extent: 4096, // tile extent (both width and height)
+				buffer: 128,   // tile buffer on each side
+				debug: 0,      // logging level (0 to disable, 1 or 2)
+				indexMaxZoom: 0,        // max zoom in the initial tile index
+				indexMaxPoints: 10, // max number of points per tile in the index
+			};
 
-      } ]);
+			var _BaseCountryLayer = geojsonvt(countriesData, tileOptions);
+			var _BaselandScapeLayer = geojsonvt(usSatesData, tileOptions);
 
-		// function createjsfile(filename) {
-		// 	 var fileref = document.createElement('script');
-		// 	 fileref.setAttribute("type", "text/javascript");
-		// 	 fileref.setAttribute("src", filename + "?noxhr="+(new Date()).getTime());
-		// 	 return fileref;
-		// }
-		//
-		// function loadjsfile(filename){
-		// 	 dynScript = createjsfile(filename);
-		// 	 dynParent = document.getElementsByTagName("head")[0];
-		// 	 dynParent.appendChild(dynScript);
-		// 	 return true
-		// }
+			//CenterMap(_BaseCountryLayer, "CountriesBase")
+			CenterMap(_BaselandScapeLayer, "LandscapeBase")
+
+			function CenterMap(rawData, layerName) {
+
+				var _layer;
+				_layer = getGeojsonVectorTiles(rawData, layerName);
+
+				leafletData.getMap("map2").then(function(map) {
+					//window.alert(2)
+					_layer.addTo(map)
+			   });
+			};
+
+			function getGeojsonVectorTiles (rawData, layerName) {
+					return  L.canvasTiles()
+							.params({ debug: false, padding: 5 , layer: rawData, LayerName: layerName })
+							.drawing(drawingOnCanvas);
+			};
+      }
+	]
+);
+
+
+function drawingOnCanvas(canvasOverlay, params) {
+	var pad = 0;
+	var bounds = params.bounds;
+	params.tilePoint.z = params.zoom;
+	var _canvas = params.canvas;
+	var ctx = params.canvas.getContext('2d');
+	ctx.globalCompositeOperation = 'source-over';
+
+	if ('devicePixelRatio' in window) {
+	  if (window.devicePixelRatio > 1) {
+		  _canvas.style.width = _canvas.width + 'px';
+		  _canvas.style.height = _canvas.height + 'px';
+		  _canvas.width *=2;
+		  _canvas.height *=2;
+		  ctx.scale(2,2);
+	  }
+  };
+	var tile = params.layer.getTile(params.tilePoint.z, params.tilePoint.x, params.tilePoint.y);
+	if (!tile) {
+			return;
+	}
+			ctx.clearRect(0, 0, params.canvas.width, params.canvas.height);
+			ctx.strokeStyle = '#d1f7ff';
+			ctx.lineWidth = 0.5;
+
+			var features = tile.features;
+
+			for (var i = 0; i < features.length; i++) {
+				var feature = features[i],
+				type = feature.type;
+
+				ctx.beginPath();
+
+				for (var j = 0; j < feature.geometry.length; j++) {
+					//window.alert(feature.tags.FIPS_CNTRY)
+					var color = GetFeatureColor(params.layerName, feature.tags)
+					ctx.fillStyle = feature.tags.color ? feature.tags.color :  color;//'rgba( 12,155,155,0.5)';
+
+					var geom = feature.geometry[j];
+					if (type === 1) {
+							ctx.arc(geom[0] * ratio + pad, geom[1] * ratio + pad, 2, 0, 2 * Math.PI, false);
+							continue;
+					}
+					for (var k = 0; k < geom.length; k++) {
+							var p = geom[k];
+							var extent = 4096;
+							var x = p[0] / extent * 256;
+							var y = p[1] / extent * 256;
+							if (k) ctx.lineTo(x  + pad, y   + pad);
+							else ctx.moveTo(x  + pad, y  + pad);
+					}
+				}
+				if (type === 3 || type === 1) ctx.fill('evenodd');
+				ctx.stroke();
+			}
+	};
+
+//apply styles
+function GetFeatureColor(LayerName, tags){
+	var color
+	//window.alert(tags.FIPS_CNTRY);
+	if (LayerName === "CountriesBase") {
+		switch(tags.FIPS_CNTRY){
+			 case "US":
+				  color = 'rgba(250,0,0,1)';
+				  break;
+			 case "UK":
+					color = 'rgba(0,250,0,1)';
+					break;
+			 case "CA":
+				 color = 'rgba(0,250,124,1)';
+				 break;
+			 case "AU":
+				 color = 'rgba(0,25,250,1)';
+				 break;
+			 case "AS":
+				 color = 'rgba(120,25,250,1)';
+				 break;
+			 case "KZ":
+				 color = 'rgba(120,125,250,1)';
+				 break;
+			 case "UZ":
+				color = 'rgba(120,125,25,1)';
+				break;
+			 default:
+				 color = 'rgba(160,160,160,1)';
+				 break;
+		}
+	}
+	return color;
+};
 
 angular.module('MapAble.directives', [])
 
@@ -1445,8 +1498,9 @@ $templateCache.put("feed-entries.html","<ion-view class=\"feed-entries-view\">\n
 $templateCache.put("feeds-categories.html","<ion-view class=\"feeds-categories-view\">\n  <ion-nav-buttons side=\"left\">\n    <button menu-toggle=\"left\" class=\"button button-icon icon ion-navicon\"></button>\n  </ion-nav-buttons>\n  <ion-nav-title>\n    <span>Feeds Categories</span>\n  </ion-nav-title>\n  <ion-content>\n    <div class=\"row categories-list\">\n      <div ng-repeat=\"category in feeds_categories\" class=\"col col-50\">\n        <a class=\"feed-category\" ui-sref=\"app.category-feeds({categoryId: (category.title | slugify)})\">\n          <img class=\"category-image\" ng-src=\"{{category.image}}\"/>\n          <div class=\"category-bg\"></div>\n          <span class=\"category-title\">{{category.title}}</span>\n        </a>\n      </div>\n    </div>\n  </ion-content>\n</ion-view>\n");
 $templateCache.put("forgot-password.html","<ion-view class=\"forgot-password-view\">\n  <ion-content scroll=\"false\">\n    <div class=\"row\">\n      <div class=\"col col-center\">\n        <div class=\"card forgot-password-container\">\n          <form name=\"forgot_password_form\" class=\"\" novalidate>\n            <div class=\"item item-body\">\n              <label class=\"item item-input\">\n                <input type=\"email\" placeholder=\"Email\" name=\"user_email\" ng-model=\"user.email\" required>\n              </label>\n            </div>\n            <div class=\"item item-body bottom-content\">\n              <button type=\"submit\" class=\"button button-positive button-block\" ng-click=\"recoverPassword()\" ng-disabled=\"forgot_password_form.$invalid\">\n                Recover it\n              </button>\n            </div>\n          </form>\n        </div>\n        <div class=\"alternative-actions\">\n          <button class=\"log-in button button-small button-clear button-light\" ng-click=\"goToLogIn()\">\n            Log In\n          </button>\n          <button class=\"sign-up button button-small button-clear button-light\" ng-click=\"goToSignUp()\">\n            Sign Up\n          </button>\n        </div>\n      </div>\n    </div>\n  </ion-content>\n</ion-view>\n");
 $templateCache.put("forms.html","<ion-view class=\"forms-view\">\n  <ion-nav-buttons side=\"left\">\n    <button menu-toggle=\"left\" class=\"button button-icon icon ion-navicon\"></button>\n  </ion-nav-buttons>\n  <ion-nav-title>\n    <span>Forms</span>\n  </ion-nav-title>\n  <ion-content>\n    <ul class=\"list\">\n\n      <div class=\"item item-divider\">Inline Labels</div>\n      \n      <label class=\"item item-input\">\n        <span class=\"input-label\">First Name</span>\n        <input type=\"text\">\n      </label>\n      <label class=\"item item-input\">\n        <span class=\"input-label\">Last Name</span>\n        <input type=\"text\">\n      </label>\n      <label class=\"item item-input\">\n        <span class=\"input-label\">Email</span>\n        <input type=\"email\">\n      </label>\n\n      <div class=\"item item-divider\">Floating Labels</div>\n\n      <label class=\"item item-input item-floating-label\">\n        <span class=\"input-label\">Telephone</span>\n        <input type=\"tel\" placeholder=\"Your phone\">\n      </label>\n      <label class=\"item item-input item-floating-label\">\n        <span class=\"input-label\">Number</span>\n        <input type=\"number\" placeholder=\"Some number\">\n      </label>\n\n      <div class=\"item item-divider\">Stacked Labels</div>\n\n      <label class=\"item item-input item-stacked-label\">\n        <span class=\"input-label\">Birth date</span>\n        <input type=\"date\">\n      </label>\n      <label class=\"item item-input item-stacked-label\">\n        <span class=\"input-label\">Month</span>\n        <input type=\"month\">\n      </label>\n\n      <div class=\"item item-divider\">Placeholder Labels</div>\n\n      <label class=\"item item-input\">\n        <textarea placeholder=\"Description\"></textarea>\n      </label>\n      <label class=\"item item-input\">\n        <input type=\"password\" placeholder=\"Your password\">\n      </label>\n\n      <div class=\"item item-divider\">Inset Inputs</div>\n\n      <div class=\"item item-input-inset\">\n        <label class=\"item-input-wrapper\">\n          <input type=\"text\" placeholder=\"Search...\">\n        </label>\n        <button class=\"button button-small\">\n          Submit\n        </button>\n      </div>\n    </ul>\n  </ion-content>\n</ion-view>\n");
+$templateCache.put("layouts.html","<ion-view class=\"layouts-view\">\n  <ion-nav-buttons side=\"left\">\n    <button menu-toggle=\"left\" class=\"button button-icon icon ion-navicon\"></button>\n  </ion-nav-buttons>\n  <ion-nav-title>\n    <span>Layouts</span>\n  </ion-nav-title>\n  <ion-content scroll=false>\n     <div style=\"position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px;\">\n      <leaflet\n            id=\"map2\"\n            layers=\"layers\"\n            controls =\"controls\"\n            center = \"center\"\n            width=\"100%\"\n            height=\"100%\">\n      </leaflet>\n    </div>\n  </ion-content>\n</ion-view>\n");
 $templateCache.put("login.html","<ion-view class=\"login-view\">\n  <ion-content scroll=\"false\">\n    <div class=\"row\">\n      <div class=\"col col-center\">\n        <div class=\"card login-container\" content-tabs tabsdata=\'tabsdata\'>\n          <form name=\"login_form\" class=\"\" novalidate ng-cloak>\n            <my-tabs>\n              <my-tab title=\"Email\">\n                <div class=\"list\">\n                  <label class=\"item item-input\">\n                    <input type=\"email\" placeholder=\"Email\" name=\"user_email\" ng-model=\"user.email\" required>\n                  </label>\n                  <label class=\"item item-input\" show-hide-container>\n                    <input type=\"password\" placeholder=\"Password\" name=\"user_password\" ng-model=\"user.password\" required show-hide-input>\n                  </label>\n                </div>\n              </my-tab>\n              <my-tab title=\"Phone\">\n                <div class=\"list\">\n                  <label class=\"item item-input\">\n                    <input type=\"text\" placeholder=\"Phone number\" name=\"user_phone\" ng-model=\"user.phone\" required>\n                  </label>\n                  <label class=\"item item-input\" show-hide-container>\n                    <input type=\"password\" placeholder=\"PIN\" name=\"user_pin\" ng-model=\"user.pin\" required valid-pin=\"user.pin\" show-hide-input>\n                  </label>\n                </div>\n              </my-tab>\n            </my-tabs>\n            <div class=\"item item-body bottom-content\">\n              <button type=\"submit\" class=\"button button-positive button-block\" ng-click=\"doLogIn()\" ng-disabled=\"(selected_tab==\'Email\') ? (login_form.user_email.$invalid || login_form.user_password.$invalid) : ((selected_tab==\'Phone\') ? (login_form.user_phone.$invalid || login_form.user_pin.$invalid) : false)\">\n                Log In\n              </button>\n            </div>\n          </form>\n        </div>\n        <div class=\"alternative-actions\">\n          <button class=\"forgot-password button button-small button-clear button-light\" ng-click=\"goToForgotPassword()\">\n            Forgot Password?\n          </button>\n          <button class=\"sign-up button button-small button-clear button-light\" ng-click=\"goToSignUp()\">\n            Sign Up\n          </button>\n        </div>\n      </div>\n    </div>\n  </ion-content>\n</ion-view>\n");
-$templateCache.put("main.html","<ion-view class=\"layouts-view\">\n  <ion-nav-buttons side=\"left\">\n    <button menu-toggle=\"left\" class=\"button button-icon icon ion-navicon\"></button>\n  </ion-nav-buttons>\n  <ion-nav-title>\n    <span>Layouts</span>\n  </ion-nav-title>\n  <ion-content scroll=false>\n     <div style=\"position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px;\">\n      <leaflet\n            layers=\"layers\"\n            center = \"center\"\n            defaults =\"defaults\"\n            width=\"100%\"\n            height=\"100%\">\n      </leaflet>\n    </div>\n  </ion-content>\n</ion-view>\n");
+$templateCache.put("main.html","<ion-view class=\"layouts-view\">\n  <ion-nav-buttons side=\"left\">\n    <button menu-toggle=\"left\" class=\"button button-icon icon ion-navicon\"></button>\n  </ion-nav-buttons>\n  <ion-nav-title>\n    <span>Main Page</span>\n  </ion-nav-title>\n  <ion-content scroll=false>\n     <div style=\"position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px;\">\n      <leaflet\n            id=\"map1\"\n            layers=\"layers\"\n            controls =\"controls\"\n            center = \"center\"\n            width=\"100%\"\n            height=\"100%\">\n      </leaflet>\n    </div>\n  </ion-content>\n</ion-view>\n");
 $templateCache.put("profile.html","<ion-view class=\"profile-view\">\n  <ion-nav-title>\n    <span>Profile</span>\n  </ion-nav-title>\n  <ion-content>\n    <div class=\"top-content row\">\n      <div class=\"profile-container\">\n        <img class=\"user-image\" ng-src=\"https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg\">\n        <div class=\"user-name\">Brynn Evans</div>\n        <div class=\"user-twitter\">@brynn</div>\n      </div>\n      <div class=\"user-background-image\" style=\"background: url(https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg) no-repeat 0 50%\"></div>\n    </div>\n    <div class=\"bottom-content\">\n      <div class=\"user-bio\">\n        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>\n      </div>\n    </div>\n  </ion-content>\n</ion-view>\n");
 $templateCache.put("settings.html","<ion-view class=\"settings-view\">\n  <ion-nav-buttons side=\"left\">\n    <button menu-toggle=\"left\" class=\"button button-icon icon ion-navicon\"></button>\n  </ion-nav-buttons>\n  <ion-nav-title>\n    <span>Settings</span>\n  </ion-nav-title>\n  <ion-content>\n    <ul class=\"list\">\n\n      <div class=\"item item-divider\">TOGGLE</div>\n\n      <ion-toggle ng-model=\"airplaneMode\" toggle-class=\"toggle-assertive\">Airplane Mode</ion-toggle>\n      <ion-toggle ng-model=\"wifi\" toggle-class=\"toggle-positive\">Wi-Fi</ion-toggle>\n      <ion-toggle ng-model=\"bluetooth\" toggle-class=\"toggle-calm\">Bluetooth</ion-toggle>\n      <ion-toggle ng-model=\"personalHotspot\" toggle-class=\"toggle-dark\">Personal Hotspot</ion-toggle>\n\n      <div class=\"item item-divider\">CHECKBOXES</div>\n\n      <ion-checkbox ng-model=\"checkOpt1\">Option 1</ion-checkbox>\n      <ion-checkbox ng-model=\"checkOpt2\">Option 2</ion-checkbox>\n      <ion-checkbox ng-model=\"checkOpt3\">Option 3</ion-checkbox>\n\n      <div class=\"item item-divider\">RADIO</div>\n\n      <ion-radio ng-model=\"radioChoice\" ng-value=\"\'A\'\">Choose A</ion-radio>\n      <ion-radio ng-model=\"radioChoice\" ng-value=\"\'B\'\">Choose B</ion-radio>\n      <ion-radio ng-model=\"radioChoice\" ng-value=\"\'C\'\">Choose C</ion-radio>\n\n      <div class=\"item item-divider\">RANGES</div>\n\n      <div class=\"range\">\n        <i class=\"icon ion-volume-low\"></i>\n        <input type=\"range\" name=\"volume\">\n        <i class=\"icon ion-volume-high\"></i>\n      </div>\n      <div class=\"item range range-positive\">\n        <i class=\"icon ion-ios-sunny-outline\"></i>\n        <input type=\"range\" name=\"volume\" min=\"0\" max=\"100\" value=\"33\">\n        <i class=\"icon ion-ios-sunny\"></i>\n      </div>\n\n      <div class=\"item item-divider\"></div>\n\n      <a class=\"item logout-option\" ng-click=\"showLogOutMenu()\">\n        Logout\n      </a>\n    </ul>\n  </ion-content>\n</ion-view>\n");
 $templateCache.put("side-menu.html","<ion-side-menus enable-menu-with-back-views=\"false\">\n  <ion-side-menu-content class=\"post-size-14px\">\n    <ion-nav-bar class=\"bar app-top-bar\">\n      <ion-nav-back-button>\n      </ion-nav-back-button>\n      <ion-nav-buttons side=\"left\">\n        <button class=\"button button-icon button-clear ion-navicon\" menu-toggle=\"left\">\n        </button>\n      </ion-nav-buttons>\n    </ion-nav-bar>\n    <ion-nav-view name=\"menuContent\"></ion-nav-view>\n  </ion-side-menu-content>\n\n  <ion-side-menu side=\"left\" class=\"main-menu\" expose-aside-when=\"large\">\n    <ion-content>\n      <ion-list>\n        <ion-item class=\"heading-item item item-avatar\" nav-clear menu-close ui-sref=\"app.profile\">\n          <img ng-src=\"https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg\">\n          <h2 class=\"greeting\">Hi Dimka</h2>\n          <p class=\"message\">Welcome to MapAble</p>\n        </ion-item>\n        <!--ion-item class=\"item-icon-left\" nav-clear menu-close ui-sref=\"app.wordpress\">\n          <i class=\"icon ion-social-wordpress\"></i>\n          <h2 class=\"menu-text\">MapADay</h2>\n       </ion-item-->\n        <!--ion-item cslass=\"item-icon-left\" nav-clear menu-close ui-sref=\"app.bookmarks\">\n          <i class=\"icon ion-bookmark\"></i>\n          <h2 class=\"menu-text\">Saved for later</h2>\n       </ion-item-->\n       <ion-item class=\"item-icon-left\" nav-clear menu-close ui-sref=\"app.main\">\n         <i class=\"icon ion-wand\"></i>\n         <h2 class=\"menu-text\">Main</h2>\n       </ion-item>\n        <ion-item class=\"item-icon-left\" nav-clear menu-close ui-sref=\"app.layouts\">\n          <i class=\"icon ion-wand\"></i>\n          <h2 class=\"menu-text\">Maps</h2>\n        </ion-item>\n        <ion-item class=\"item-icon-left\" nav-clear menu-close ui-sref=\"app.feeds-categories\">\n          <i class=\"icon ion-radio-waves\"></i>\n          <h2 class=\"menu-text\">News</h2>\n        </ion-item>\n        <ion-item class=\"item-icon-left\" nav-clear menu-close ui-sref=\"app.layouts\">\n          <i class=\"icon ion-wand\"></i>\n          <h2 class=\"menu-text\">Quiz</h2>\n        </ion-item>\n        <ion-item class=\"item-icon-left\" nav-clear menu-close ui-sref=\"app.forms\">\n          <i class=\"icon ion-document\"></i>\n          <h2 class=\"menu-text\">Forms</h2>\n        </ion-item>\n        <ion-item class=\"item-icon-left\" nav-clear menu-close ui-sref=\"app.settings\">\n          <i class=\"icon ion-gear-a\"></i>\n          <h2 class=\"menu-text\">Settings</h2>\n        </ion-item>\n\n    </ion-list>\n    </ion-content>\n  </ion-side-menu>\n</ion-side-menus>\n");

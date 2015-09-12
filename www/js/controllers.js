@@ -450,7 +450,7 @@ angular.module('MapAble.controllers', [])
 })
 
 
-.controller("MapController", [ '$scope', '$http', 'leafletData', function($scope, $http, leafletData) {
+.controller("MapController", [ '$scope', '$log', '$http', 'leafletData', function($scope, $log, $http, leafletData) {
 
 			angular.extend($scope, {
 				center: {
@@ -460,9 +460,15 @@ angular.module('MapAble.controllers', [])
 				},
 				layers: {
 					scale: true,
-					scrollWheelZoom: false,
-				   baselayers: {
-				   },
+					scrollWheelZoom: false//,
+				   // baselayers: {
+				   // }
+				},
+				controls: {
+					scale: true,
+					fullscreen: {
+							  position: 'topleft'
+					}
 				}
 			});
 
@@ -478,134 +484,181 @@ angular.module('MapAble.controllers', [])
 				indexMaxPoints: 10, // max number of points per tile in the index
 			};
 
-			var _BaseCountryLayer = geojsonvt(countriesData,tileOptions);
+			var _BaseCountryLayer = geojsonvt(countriesData, tileOptions);
 			var _BaselandScapeLayer = geojsonvt(usSatesData, tileOptions);
 			var pad = 0;
 
 			CenterMap(_BaseCountryLayer, "CountriesBase")
-			CenterMap(_BaselandScapeLayer, "LandscapeBase")
+			//CenterMap(_BaselandScapeLayer, "LandscapeBase")
 
 			function CenterMap(rawData, layerName) {
-			   leafletData.getMap().then(function(map) {
-					getGeojsonVectorTiles(rawData, layerName).addTo(map);
+
+				var _layer;
+				_layer = getGeojsonVectorTiles(rawData, layerName);
+
+				leafletData.getMap("map1").then(function(map) {
+					//window.alert(1)
+					_layer.addTo(map)
 			   });
 			};
 
 			function getGeojsonVectorTiles (rawData, layerName) {
-			      window.alert(16)
 					return  L.canvasTiles()
 							.params({ debug: false, padding: 5 , layer: rawData, LayerName: layerName })
 							.drawing(drawingOnCanvas);
 			};
 
-			function drawingOnCanvas(canvasOverlay, params) {
-				var bounds = params.bounds;
-				params.tilePoint.z = params.zoom;
-				var _canvas = params.canvas;
-				var ctx = params.canvas.getContext('2d');
-				ctx.globalCompositeOperation = 'source-over';
+      }
+	]
+)
 
-				if ('devicePixelRatio' in window) {
-				  if (window.devicePixelRatio > 1) {
-					  _canvas.style.width = _canvas.width + 'px';
-					  _canvas.style.height = _canvas.height + 'px';
-					  _canvas.width *=2;
-					  _canvas.height *=2;
-					  ctx.scale(2,2);
-				  }
-			  };
-				//console.log('getting tile z' + params.tilePoint.z + '-' + params.tilePoint.x + '-' + params.tilePoint.y);
-				var tile = params.layer.getTile(params.tilePoint.z, params.tilePoint.x, params.tilePoint.y);
-				if (!tile) {
-						//console.log('tile empty');
-						return;
-				}
-						ctx.clearRect(0, 0, params.canvas.width, params.canvas.height);
-						ctx.strokeStyle = '#d1f7ff';
-						ctx.lineWidth = 0.5;
+.controller("MapController2", [ '$scope', '$log', '$http', 'leafletData', function($scope, $log, $http, leafletData) {
 
-						var features = tile.features;
-
-						for (var i = 0; i < features.length; i++) {
-							var feature = features[i],
-							type = feature.type;
-
-							ctx.beginPath();
-
-							for (var j = 0; j < feature.geometry.length; j++) {
-								//window.alert(feature.tags.FIPS_CNTRY)
-								var color = GetFeatureColor(params.layerName, feature.tags)
-								ctx.fillStyle = feature.tags.color ? feature.tags.color :  color;//'rgba( 12,155,155,0.5)';
-
-								var geom = feature.geometry[j];
-								if (type === 1) {
-										ctx.arc(geom[0] * ratio + pad, geom[1] * ratio + pad, 2, 0, 2 * Math.PI, false);
-										continue;
-								}
-								for (var k = 0; k < geom.length; k++) {
-										var p = geom[k];
-										var extent = 4096;
-										var x = p[0] / extent * 256;
-										var y = p[1] / extent * 256;
-										if (k) ctx.lineTo(x  + pad, y   + pad);
-										else ctx.moveTo(x  + pad, y  + pad);
-								}
-							}
-							if (type === 3 || type === 1) ctx.fill('evenodd');
-							ctx.stroke();
-						}
-				};
-
-				//apply styles
-				function GetFeatureColor(LayerName, tags){
-					var color
-					//window.alert(tags.FIPS_CNTRY);
-					if (LayerName === "CountriesBase") {
-						switch(tags.FIPS_CNTRY){
-						    case "US":
-						        color = 'rgba(250,0,0,1)';
-								  break;
-							 case "UK":
-    						   	color = 'rgba(0,250,0,1)';
-    								break;
-						    case "CA":
-								 color = 'rgba(0,250,124,1)';
-								 break;
-						    case "AU":
-								 color = 'rgba(0,25,250,1)';
-								 break;
-							 case "AS":
-								 color = 'rgba(120,25,250,1)';
-								 break;
-							 case "KZ":
-								 color = 'rgba(120,125,250,1)';
-								 break;
-							 case "UZ":
- 								color = 'rgba(120,125,25,1)';
- 								break;
-						    default:
-								 color = 'rgba(160,160,160,1)';
-								 break;
-						}
+			angular.extend($scope, {
+				center2: {
+				    lat: 37.26,
+				    lng: -97.86,
+				    zoom: 5
+				},
+				layers2: {
+					scale: true,
+					scrollWheelZoom: false
+				},
+				controls2: {
+					scale: true,
+					fullscreen: {
+							  position: 'topleft'
 					}
-					// var number = Math.floor(256 * Math.random())
-					// color = 'rgba(' + number + ',' + number + ',156,1)'
-					return color;
+				}
+			});
 
-				};
+		  //Setting variables
+			var tileOptions = {
+				tilesize: 128,
+				maxZoom: 15,  // max zoom to preserve detail on
+				tolerance: 5, // simplification tolerance (higher means simpler)
+				extent: 4096, // tile extent (both width and height)
+				buffer: 128,   // tile buffer on each side
+				debug: 0,      // logging level (0 to disable, 1 or 2)
+				indexMaxZoom: 0,        // max zoom in the initial tile index
+				indexMaxPoints: 10, // max number of points per tile in the index
+			};
 
-      } ]);
+			var _BaseCountryLayer = geojsonvt(countriesData, tileOptions);
+			var _BaselandScapeLayer = geojsonvt(usSatesData, tileOptions);
 
-		// function createjsfile(filename) {
-		// 	 var fileref = document.createElement('script');
-		// 	 fileref.setAttribute("type", "text/javascript");
-		// 	 fileref.setAttribute("src", filename + "?noxhr="+(new Date()).getTime());
-		// 	 return fileref;
-		// }
-		//
-		// function loadjsfile(filename){
-		// 	 dynScript = createjsfile(filename);
-		// 	 dynParent = document.getElementsByTagName("head")[0];
-		// 	 dynParent.appendChild(dynScript);
-		// 	 return true
-		// }
+			//CenterMap(_BaseCountryLayer, "CountriesBase")
+			CenterMap(_BaselandScapeLayer, "LandscapeBase")
+
+			function CenterMap(rawData, layerName) {
+
+				var _layer;
+				_layer = getGeojsonVectorTiles(rawData, layerName);
+
+				leafletData.getMap("map2").then(function(map) {
+					//window.alert(2)
+					_layer.addTo(map)
+			   });
+			};
+
+			function getGeojsonVectorTiles (rawData, layerName) {
+					return  L.canvasTiles()
+							.params({ debug: false, padding: 5 , layer: rawData, LayerName: layerName })
+							.drawing(drawingOnCanvas);
+			};
+      }
+	]
+);
+
+
+function drawingOnCanvas(canvasOverlay, params) {
+	var pad = 0;
+	var bounds = params.bounds;
+	params.tilePoint.z = params.zoom;
+	var _canvas = params.canvas;
+	var ctx = params.canvas.getContext('2d');
+	ctx.globalCompositeOperation = 'source-over';
+
+	if ('devicePixelRatio' in window) {
+	  if (window.devicePixelRatio > 1) {
+		  _canvas.style.width = _canvas.width + 'px';
+		  _canvas.style.height = _canvas.height + 'px';
+		  _canvas.width *=2;
+		  _canvas.height *=2;
+		  ctx.scale(2,2);
+	  }
+  };
+	var tile = params.layer.getTile(params.tilePoint.z, params.tilePoint.x, params.tilePoint.y);
+	if (!tile) {
+			return;
+	}
+			ctx.clearRect(0, 0, params.canvas.width, params.canvas.height);
+			ctx.strokeStyle = '#d1f7ff';
+			ctx.lineWidth = 0.5;
+
+			var features = tile.features;
+
+			for (var i = 0; i < features.length; i++) {
+				var feature = features[i],
+				type = feature.type;
+
+				ctx.beginPath();
+
+				for (var j = 0; j < feature.geometry.length; j++) {
+					//window.alert(feature.tags.FIPS_CNTRY)
+					var color = GetFeatureColor(params.layerName, feature.tags)
+					ctx.fillStyle = feature.tags.color ? feature.tags.color :  color;//'rgba( 12,155,155,0.5)';
+
+					var geom = feature.geometry[j];
+					if (type === 1) {
+							ctx.arc(geom[0] * ratio + pad, geom[1] * ratio + pad, 2, 0, 2 * Math.PI, false);
+							continue;
+					}
+					for (var k = 0; k < geom.length; k++) {
+							var p = geom[k];
+							var extent = 4096;
+							var x = p[0] / extent * 256;
+							var y = p[1] / extent * 256;
+							if (k) ctx.lineTo(x  + pad, y   + pad);
+							else ctx.moveTo(x  + pad, y  + pad);
+					}
+				}
+				if (type === 3 || type === 1) ctx.fill('evenodd');
+				ctx.stroke();
+			}
+	};
+
+//apply styles
+function GetFeatureColor(LayerName, tags){
+	var color
+	//window.alert(tags.FIPS_CNTRY);
+	if (LayerName === "CountriesBase") {
+		switch(tags.FIPS_CNTRY){
+			 case "US":
+				  color = 'rgba(250,0,0,1)';
+				  break;
+			 case "UK":
+					color = 'rgba(0,250,0,1)';
+					break;
+			 case "CA":
+				 color = 'rgba(0,250,124,1)';
+				 break;
+			 case "AU":
+				 color = 'rgba(0,25,250,1)';
+				 break;
+			 case "AS":
+				 color = 'rgba(120,25,250,1)';
+				 break;
+			 case "KZ":
+				 color = 'rgba(120,125,250,1)';
+				 break;
+			 case "UZ":
+				color = 'rgba(120,125,25,1)';
+				break;
+			 default:
+				 color = 'rgba(160,160,160,1)';
+				 break;
+		}
+	}
+	return color;
+};
