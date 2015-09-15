@@ -10,7 +10,6 @@
     </ion-nav-bar>
     <ion-nav-view name="menuContent"></ion-nav-view>
   </ion-side-menu-content>
-
   <ion-side-menu side="left" class="main-menu" expose-aside-when="large">
     <ion-content>
       <ion-list>
@@ -19,18 +18,22 @@
           <h2 class="greeting">Hi Dimka</h2>
           <p class="message">Welcome to MapAble</p>
         </ion-item>
-        <!--ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.wordpress">
+        <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.wordpress">
           <i class="icon ion-social-wordpress"></i>
           <h2 class="menu-text">MapADay</h2>
-       </ion-item-->
-        <!--ion-item cslass="item-icon-left" nav-clear menu-close ui-sref="app.bookmarks">
-          <i class="icon ion-bookmark"></i>
-          <h2 class="menu-text">Saved for later</h2>
-       </ion-item-->
+       </ion-item>
        <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.main">
          <i class="icon ion-wand"></i>
          <h2 class="menu-text">Main</h2>
        </ion-item>
+       <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.bookmarks">
+         <i class="icon ion-wand"></i>
+         <h2 class="menu-text">Bookmarks</h2>
+       </ion-item>
+       <!--ion-item cslass="item-icon-left" nav-clear menu-close ui-sref="app.bookmarks">
+         <i class="icon ion-wand"></i>
+         <h2 class="menu-text">Bookmarks</h2>
+      </ion-item-->
         <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.layouts">
           <i class="icon ion-wand"></i>
           <h2 class="menu-text">Maps</h2>
@@ -51,7 +54,6 @@
           <i class="icon ion-gear-a"></i>
           <h2 class="menu-text">Settings</h2>
         </ion-item>
-
     </ion-list>
     </ion-content>
   </ion-side-menu>

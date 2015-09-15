@@ -12,7 +12,8 @@ platforms/
 www/css/ionic.app.min.css
 www/css/ionic.app.css
 //www/lib/
-//www/dist/
+www/lib/
+www/dist/
 *.log
 =======
 >>>>>>> origin/master
