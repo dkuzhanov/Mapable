@@ -454,21 +454,33 @@ angular.module('MapAble.controllers', [])
 
 			angular.extend($scope, {
 				center: {
-				    lat: 37.26,
-				    lng: -97.86,
-				    zoom: 5
+				    lat: 40,
+				    lng: 20,
+				    zoom: 4
 				},
 				layers: {
-					scale: true,
-					scrollWheelZoom: false//,
-				   // baselayers: {
-				   // }
+				// baselayers: {
+				// } maxZoom, minZoom, zoomControl, tap, zoomAnimation,
 				},
-				controls: {
-					scale: true,
-					fullscreen: {
-							  position: 'topleft'
-					}
+				defaults: {
+					zoomAnimation: false,
+					zoomControl: false
+				}
+			});
+
+			angular.extend($scope, {
+				center2: {
+					 lat: 40,
+					 lng: 20,
+					 zoom: 4
+				},
+				layers2: {
+				// baselayers: {
+				// } maxZoom, minZoom, zoomControl, tap, zoomAnimation,
+				},
+				defaults2: {
+					zoomAnimation: false,
+					zoomControl: false
 				}
 			});
 
@@ -488,15 +500,15 @@ angular.module('MapAble.controllers', [])
 			var _BaselandScapeLayer = geojsonvt(usSatesData, tileOptions);
 			var pad = 0;
 
-			CenterMap(_BaseCountryLayer, "CountriesBase")
-			//CenterMap(_BaselandScapeLayer, "LandscapeBase")
+			CenterMap(_BaseCountryLayer, "CountriesBase", "map1")
+			CenterMap(_BaselandScapeLayer, "LandscapeBase", "map2")
 
-			function CenterMap(rawData, layerName) {
+			function CenterMap(rawData, layerName, mapid) {
 
 				var _layer;
 				_layer = getGeojsonVectorTiles(rawData, layerName);
 
-				leafletData.getMap("map1").then(function(map) {
+				leafletData.getMap(mapid).then(function(map) {
 					//window.alert(1)
 					_layer.addTo(map)
 			   });
@@ -514,23 +526,8 @@ angular.module('MapAble.controllers', [])
 
 .controller("MapController2", [ '$scope', '$log', '$http', 'leafletData', function($scope, $log, $http, leafletData) {
 
-			angular.extend($scope, {
-				center2: {
-				    lat: 37.26,
-				    lng: -97.86,
-				    zoom: 5
-				},
-				layers2: {
-					scale: true,
-					scrollWheelZoom: false
-				},
-				controls2: {
-					scale: true,
-					fullscreen: {
-							  position: 'topleft'
-					}
-				}
-			});
+
+
 
 		  //Setting variables
 			var tileOptions = {
@@ -661,4 +658,4 @@ function GetFeatureColor(LayerName, tags){
 		}
 	}
 	return color;
-};
+}

@@ -83,17 +83,28 @@ angular.module('MapAble', ['ionic', 'angularMoment', 'leaflet-directive', 'MapAb
     views: {
       'menuContent': {
         templateUrl: "layouts.html",
-        controller: 'MapController2'
+        controller: 'MapController'
       }
     }
   })
 
-  .state('app.slider', {
+  //LAYOUTS
+  .state('app.population', {
+    url: "/layouts",
+    views: {
+      'menuContent': {
+        templateUrl: "Population_layout.html"
+      }
+    }
+  })
+
+
+  .state('app.nationalities', {
     url: "/layouts/slider",
     views: {
       'menuContent': {
-        templateUrl: "slider.html",
-        controller: 'SliderCtrl'
+        templateUrl: "Map2.html",
+        controller: 'MapController'
       }
     }
   })
