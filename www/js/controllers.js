@@ -459,8 +459,7 @@ angular.module('MapAble.controllers', [])
 				    zoom: 4
 				},
 				layers: {
-				// baselayers: {
-				// } maxZoom, minZoom, zoomControl, tap, zoomAnimation,
+
 				},
 				defaults: {
 					zoomAnimation: false,
@@ -471,12 +470,11 @@ angular.module('MapAble.controllers', [])
 			angular.extend($scope, {
 				center2: {
 					 lat: 40,
-					 lng: 20,
+					 lng: -60,
 					 zoom: 4
 				},
 				layers2: {
-				// baselayers: {
-				// } maxZoom, minZoom, zoomControl, tap, zoomAnimation,
+
 				},
 				defaults2: {
 					zoomAnimation: false,
@@ -523,49 +521,6 @@ angular.module('MapAble.controllers', [])
       }
 	]
 )
-
-.controller("MapController2", [ '$scope', '$log', '$http', 'leafletData', function($scope, $log, $http, leafletData) {
-
-
-
-
-		  //Setting variables
-			var tileOptions = {
-				tilesize: 128,
-				maxZoom: 15,  // max zoom to preserve detail on
-				tolerance: 5, // simplification tolerance (higher means simpler)
-				extent: 4096, // tile extent (both width and height)
-				buffer: 128,   // tile buffer on each side
-				debug: 0,      // logging level (0 to disable, 1 or 2)
-				indexMaxZoom: 0,        // max zoom in the initial tile index
-				indexMaxPoints: 10, // max number of points per tile in the index
-			};
-
-			var _BaseCountryLayer = geojsonvt(countriesData, tileOptions);
-			var _BaselandScapeLayer = geojsonvt(usSatesData, tileOptions);
-
-			//CenterMap(_BaseCountryLayer, "CountriesBase")
-			CenterMap(_BaselandScapeLayer, "LandscapeBase")
-
-			function CenterMap(rawData, layerName) {
-
-				var _layer;
-				_layer = getGeojsonVectorTiles(rawData, layerName);
-
-				leafletData.getMap("map2").then(function(map) {
-					//window.alert(2)
-					_layer.addTo(map)
-			   });
-			};
-
-			function getGeojsonVectorTiles (rawData, layerName) {
-					return  L.canvasTiles()
-							.params({ debug: false, padding: 5 , layer: rawData, LayerName: layerName })
-							.drawing(drawingOnCanvas);
-			};
-      }
-	]
-);
 
 
 function drawingOnCanvas(canvasOverlay, params) {
