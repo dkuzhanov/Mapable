@@ -5,13 +5,15 @@
   <ion-nav-title>
     <span>Nationalities</span>
   </ion-nav-title>
-  <ion-content scroll=false>
+  <ion-content scroll="false">
      <div style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px;">
       <leaflet
+            data-tap-disabled="true"
             id="map2"
-            layers="layers2"
-            defaults = "defaults2"
-            center = "center2"
+            layers="layers"
+            maxBounds="maxBounds"
+            defaults = "defaults"
+            center = "center"
             width="100%"
             height="100%">
       </leaflet>

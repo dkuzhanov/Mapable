@@ -9,15 +9,31 @@
                 "parents": {
                     "/*": [
                         {
+                            "xml": "<feature name=\"Keyboard\"><param name=\"ios-package\" onload=\"true\" value=\"IonicKeyboard\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"PushPlugin\"><param name=\"ios-package\" value=\"PushPlugin\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"iAd\"><param name=\"ios-package\" value=\"iAdPlugin\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"ImagePicker\"><param name=\"ios-package\" value=\"SOSPicker\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"AdMob\"><param name=\"ios-package\" value=\"CDVAdMobPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Console\"><param name=\"ios-package\" value=\"CDVLogger\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"Device\"><param name=\"ios-package\" value=\"CDVDevice\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Geolocation\"><param name=\"ios-package\" value=\"CDVLocation\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"SplashScreen\"><param name=\"ios-package\" value=\"CDVSplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
                         {
@@ -25,7 +41,15 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"ImagePicker\"><param name=\"ios-package\" value=\"SOSPicker\" /></feature>",
+                            "xml": "<feature name=\"Geolocation\"><param name=\"ios-package\" value=\"CDVLocation\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Globalization\"><param name=\"ios-package\" value=\"CDVGlobalization\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SplashScreen\"><param name=\"ios-package\" value=\"CDVSplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
                         {
@@ -37,35 +61,23 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVInAppBrowser\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"AdMob\"><param name=\"ios-package\" value=\"CDVAdMobPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Globalization\"><param name=\"ios-package\" value=\"CDVGlobalization\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"iAd\"><param name=\"ios-package\" value=\"iAdPlugin\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"PushPlugin\"><param name=\"ios-package\" value=\"PushPlugin\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Keyboard\"><param name=\"ios-package\" onload=\"true\" value=\"IonicKeyboard\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"AppRate\"><param name=\"ios-package\" value=\"CDVAppRate\" /></feature>",
                             "count": 1
-                        },
+                        }
+                    ]
+                }
+            },
+            "*-Info.plist": {
+                "parents": {
+                    "NSAppTransportSecurity": [
                         {
-                            "xml": "<feature name=\"Console\"><param name=\"ios-package\" value=\"CDVLogger\" /></feature>",
+                            "xml": "<dict><key>NSAllowsArbitraryLoads</key><true /></dict>",
+                            "count": 1
+                        }
+                    ],
+                    "NSLocationWhenInUseUsageDescription": [
+                        {
+                            "xml": "<string />",
                             "count": 1
                         }
                     ]
@@ -73,39 +85,7 @@
             },
             "framework": {
                 "parents": {
-                    "CoreLocation.framework": [
-                        {
-                            "xml": false,
-                            "count": 2
-                        }
-                    ],
-                    "CoreGraphics.framework": [
-                        {
-                            "xml": false,
-                            "count": 3
-                        }
-                    ],
-                    "AudioToolbox.framework": [
-                        {
-                            "xml": true,
-                            "count": 1
-                        },
-                        {
-                            "xml": false,
-                            "count": 1
-                        }
-                    ],
-                    "MessageUI.framework": [
-                        {
-                            "xml": true,
-                            "count": 2
-                        },
-                        {
-                            "xml": false,
-                            "count": 1
-                        }
-                    ],
-                    "Social.framework": [
+                    "iAd.framework": [
                         {
                             "xml": true,
                             "count": 1
@@ -117,10 +97,32 @@
                             "count": 1
                         }
                     ],
+                    "AudioToolbox.framework": [
+                        {
+                            "xml": false,
+                            "count": 1
+                        },
+                        {
+                            "xml": true,
+                            "count": 1
+                        }
+                    ],
                     "AVFoundation.framework": [
                         {
                             "xml": false,
                             "count": 1
+                        }
+                    ],
+                    "CoreGraphics.framework": [
+                        {
+                            "xml": false,
+                            "count": 2
+                        }
+                    ],
+                    "CoreLocation.framework": [
+                        {
+                            "xml": false,
+                            "count": 2
                         }
                     ],
                     "CoreTelephony.framework": [
@@ -147,6 +149,16 @@
                             "count": 1
                         }
                     ],
+                    "MessageUI.framework": [
+                        {
+                            "xml": false,
+                            "count": 1
+                        },
+                        {
+                            "xml": true,
+                            "count": 2
+                        }
+                    ],
                     "QuartzCore.framework": [
                         {
                             "xml": false,
@@ -171,19 +183,9 @@
                             "count": 1
                         }
                     ],
-                    "iAd.framework": [
+                    "Social.framework": [
                         {
                             "xml": true,
-                            "count": 1
-                        }
-                    ]
-                }
-            },
-            "*-Info.plist": {
-                "parents": {
-                    "NSLocationWhenInUseUsageDescription": [
-                        {
-                            "xml": "<string />",
                             "count": 1
                         }
                     ]
@@ -192,54 +194,55 @@
         }
     },
     "installed_plugins": {
-        "cordova-plugin-device": {
-            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
-        },
-        "cordova-plugin-geolocation": {
-            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
-        },
-        "cordova-plugin-splashscreen": {
-            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
-        },
-        "cordova-plugin-dialogs": {
-            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
-        },
-        "com.synconset.imagepicker": {
-            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
-        },
-        "de.appplant.cordova.plugin.email-composer": {
-            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
-        },
-        "nl.x-services.plugins.socialsharing": {
-            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
-        },
-        "cordova-plugin-inappbrowser": {
-            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
-        },
-        "cordova-plugin-extension": {
-            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
-        },
-        "cordova-plugin-admobpro": {
-            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
-        },
-        "cordova-plugin-globalization": {
-            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
-        },
-        "com.rjfun.cordova.iad": {
-            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
+        "com.ionic.keyboard": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
         },
         "com.phonegap.plugins.PushPlugin": {
-            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
         },
-        "ionic-plugin-keyboard": {
-            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
+        "com.rjfun.cordova.iad": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
         },
-        "org.pushandplay.cordova.apprate": {
-            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
+        "com.synconset.imagepicker": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "cordova-plugin-admobpro": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
         },
         "cordova-plugin-console": {
-            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "cordova-plugin-globalization": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "de.appplant.cordova.plugin.email-composer": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "nl.x-services.plugins.socialsharing": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "org.pushandplay.cordova.apprate": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "cordova-plugin-extension": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        }
+    }
 }

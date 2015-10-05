@@ -43,7 +43,6 @@
     "cordova-plugin-whitelist@1.0.0",
     "cordova-plugin-admobpro",
     "com.rjfun.cordova.iad",
-    "cordova-plugin-inappbrowser",
     "nl.x-services.plugins.socialsharing",
     "com.synconset.imagepicker",
     "cordova-plugin-geolocation",

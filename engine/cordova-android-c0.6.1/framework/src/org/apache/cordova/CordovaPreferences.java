@@ -47,11 +47,11 @@ public class CordovaPreferences {
     public void set(String name, int value) {
         set(name, "" + value);
     }
-    
+
     public void set(String name, double value) {
         set(name, "" + value);
     }
-    
+
     public Map<String, String> getAll() {
         return prefs;
     }
@@ -156,11 +156,6 @@ public class CordovaPreferences {
                 action.getIntent().putExtra(name, asInt);
             }
             else if(name.equals("keeprunning"))
-            {
-                boolean asBool = Boolean.parseBoolean(value);
-                action.getIntent().putExtra(name, asBool);
-            }
-            else if(name.equals("inappbrowserstorageenabled"))
             {
                 boolean asBool = Boolean.parseBoolean(value);
                 action.getIntent().putExtra(name, asBool);

@@ -8,7 +8,7 @@ angular.module('underscore', [])
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('MapAble', ['ionic', 'angularMoment', 'leaflet-directive', 'MapAble.controllers', 'MapAble.directives', 'MapAble.filters', 'MapAble.services', 'MapAble.factories', 'MapAble.config', 'underscore', 'ngMap', 'ngResource', 'ngCordova', 'templates', 'slugifier'])
+angular.module('MapAble', ['ionic', 'angularMoment', 'leaflet-directive', 'MapAble.controllers', 'MapAble.directives', 'MapAble.filters', 'MapAble.services', 'MapAble.factories', 'MapAble.config', 'underscore', 'ngResource', 'ngCordova', 'templates', 'slugifier'])
 
 .run(function($ionicPlatform, PushNotificationsService) {
 
@@ -77,34 +77,34 @@ angular.module('MapAble', ['ionic', 'angularMoment', 'leaflet-directive', 'MapAb
     }
   })
 
-  //LAYOUTS
-  .state('app.layouts', {
-    url: "/layouts",
-    views: {
-      'menuContent': {
-        templateUrl: "layouts.html",
-        controller: 'MapController'
-      }
-    }
-  })
+  // //LAYOUTS
+  // .state('app.layouts', {
+  //   url: "/layouts",
+  //   views: {
+  //     'menuContent': {
+  //       templateUrl: "layouts.html",
+  //       controller: 'MapController'
+  //     }
+  //   }
+  // })
 
   //LAYOUTS
   .state('app.population', {
     url: "/layouts",
     views: {
       'menuContent': {
-        templateUrl: "Population_layout.html"
+        templateUrl: "layouts.html"
       }
     }
   })
 
 
   .state('app.nationalities', {
-    url: "/layouts/slider",
+    url: "/layouts/nationalities",
     views: {
       'menuContent': {
         templateUrl: "Map2.html",
-        controller: 'MapController'
+        controller: 'MapController2'
       }
     }
   })

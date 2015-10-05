@@ -36,8 +36,9 @@ From May 2015, Cordova team announced the deprecation of Cordova registry, and s
 
 Platforms supported:
 - [x] Android, via SDK v7.8 (part of Google Play service platform)
-- [x] iOS, via SDK v7.4.1
+- [x] iOS, via SDK v7.5.0
 - [x] Windows Phone, via SDK v6.5.13
+- [x] Amazon-FireOS, via Android SDK (part of Google Play service platform)
 
 Ad Types:
 - [x] Banner
@@ -115,9 +116,14 @@ If use other tools or online build services, see:
 * [x] Meteor ([How To ...](https://github.com/floatinghotpot/cordova-admob-pro/wiki/06.-How-To-Use-with-Meteor))
 * [x] Ionic/AngularJS ([In ng-cordova ...](https://github.com/driftyco/ng-cordova/blob/master/src/plugins/googleAds.js))
 
+What's difference of the 3 plugin IDs, which one shall I use ?
+* com.google.cordova.admob
+* cordova-plugin-admobpro
+* cordova-plugin-admob
+
+Read: [Difference of Plugin ID](https://github.com/floatinghotpot/cordova-admob-pro/wiki/Difference-of-Plugin-IDs)
+
 Notice:
-* The plugin id in old cordova registry is ```com.google.cordova.admob```, and now in npm is ```cordova-plugin-admobpro```, as Cordova team announce that the plugin registry is being migrated to npm, and recommended name rule is: cordova-plugin-xxx.
-* Read: [Difference of ```com.google.cordova.admob``` and ```cordova-plugin-admobpro```](https://github.com/floatinghotpot/cordova-admob-pro/wiki/Difference-of-Plugin-IDs)
 * If build locally using ```cordova-plugin-admobpro```, to avoid build error, you need install some extras in Android SDK manager (type ```android sdk``` to launch it):
 ![android extra](https://cloud.githubusercontent.com/assets/2339512/8176143/20533ec0-1429-11e5-8e17-a748373d5110.png)
 
@@ -130,7 +136,7 @@ Step 1: Create Ad Unit Id for your banner and interstitial, in [AdMob portal](ht
 ```javascript
 // select the right Ad Id according to platform
     var admobid = {};
-    if( /(android)/i.test(navigator.userAgent) ) { // for android
+    if( /(android)/i.test(navigator.userAgent) ) { // for android & amazon-fireos
 		admobid = {
 			banner: 'ca-app-pub-xxx/xxx', // or DFP format "/6253334/dfp_example_ad"
 			interstitial: 'ca-app-pub-xxx/yyy'
@@ -249,15 +255,8 @@ Ad Format | Banner | Interstitial
 Click Rate | < 1% | 3-15%
 RPM (revenue per 1000 impression) |  US$ 0.5~4 | US$ 10~100
 
-- [x] RPM top countries (recent stat data):
-* USA, US$ 10~100, much higher than others
-* South Korea
-* Japan 
-* Sweden 
-* Norway 
-* China 
-* United Kingdom
-* Finland 
+- [x] RPM top countries (stat data in recent 2 months, FYI):
+![ScreenShot](https://github.com/floatinghotpot/cordova-admob-pro/raw/master/docs/stat_ref.png)
 
 - [x] Using SMART_BANNER to auto-fit the screen width, avoid using BANNER or FULL_BANNER (unless you are using DFP)
 

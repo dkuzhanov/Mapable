@@ -26,7 +26,7 @@
     "com.rjfun.cordova.iad": {
         "source": {
             "type": "registry",
-            "id": "com.rjfun.cordova.iad@^2.0.4"
+            "id": "com.rjfun.cordova.iad"
         },
         "is_top_level": true,
         "variables": {}
@@ -72,14 +72,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-plugin-inappbrowser": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-inappbrowser"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "cordova-plugin-extension": {
         "source": {
             "type": "registry",
@@ -121,15 +113,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "ionic-plugin-keyboard": {
-        "source": {
-            "type": "git",
-            "url": "https://github.com/driftyco/ionic-plugins-keyboard.git",
-            "subdir": "."
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "org.apache.cordova.dialogs": {
         "source": {
             "type": "registry",
@@ -160,14 +143,6 @@
             "id": "cordova-plugin-console@^1.0.1"
         },
         "is_top_level": true,
-        "variables": {}
-    },
-    "org.apache.cordova.inappbrowser": {
-        "source": {
-            "type": "registry",
-            "id": "org.apache.cordova.inappbrowser"
-        },
-        "is_top_level": false,
         "variables": {}
     },
     "com.ionic.keyboard": {

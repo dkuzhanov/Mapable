@@ -52,7 +52,6 @@
       <preference name="splashscreen" value="splash" />
       <preference name="backgroundColor" value="0xFFF" />
       <preference name="loadUrlTimeoutValue" value="20000" />
-      <preference name="InAppBrowserStorageEnabled" value="true" />
       <preference name="disallowOverscroll" value="true" />
     -->
 </widget>

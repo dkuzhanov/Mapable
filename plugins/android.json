@@ -9,6 +9,10 @@
                 "parents": {
                     "/*": [
                         {
+                            "xml": "<feature name=\"Keyboard\"><param name=\"android-package\" value=\"com.ionic.keyboard.IonicKeyboard\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"PushPlugin\"><param name=\"android-package\" value=\"com.plugin.gcm.PushPlugin\" /></feature>",
                             "count": 1
                         },
@@ -33,10 +37,6 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
@@ -58,10 +58,6 @@
                         },
                         {
                             "xml": "<feature name=\"AppRate\"><param name=\"android-package\" value=\"org.pushandplay.cordova.apprate.AppRate\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Keyboard\"><param name=\"android-package\" value=\"com.ionic.keyboard.IonicKeyboard\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -117,7 +113,7 @@
                             "count": 1
                         },
                         {
-                            "xml": "<activity android:label=\"@string/multi_app_name\" android:name=\"com.synconset.MultiImageChooserActivity\" android:theme=\"@android:style/Theme.Holo.Light\"></activity>",
+                            "xml": "<activity android:label=\"@string/multi_app_name\" android:name=\"com.synconset.MultiImageChooserActivity\" android:theme=\"@android:style/Theme.Holo.Light\"><intent-filter /></activity>",
                             "count": 1
                         },
                         {
@@ -152,6 +148,9 @@
         }
     },
     "installed_plugins": {
+        "com.ionic.keyboard": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
         "com.phonegap.plugins.PushPlugin": {
             "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
         },
@@ -179,9 +178,6 @@
         "cordova-plugin-globalization": {
             "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
         },
-        "cordova-plugin-inappbrowser": {
-            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
-        },
         "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
         },
@@ -191,16 +187,10 @@
         "de.appplant.cordova.plugin.email-composer": {
             "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
         },
-        "ionic-plugin-keyboard": {
-            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
-        },
         "nl.x-services.plugins.socialsharing": {
             "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
         },
         "org.pushandplay.cordova.apprate": {
-            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
-        },
-        "com.ionic.keyboard": {
             "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
         }
     },

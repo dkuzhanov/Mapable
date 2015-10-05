@@ -2,8 +2,35 @@ angular.module('MapAble.controllers', [])
 
 // APP
 .controller('AppCtrl', function($scope) {
-
+	window.alert(9)
+	angular.extend($scope, {
+		center: {
+			 lat: 20,
+			 lng: -80,
+			 zoom: 4
+		},
+		layers: {
+		},
+		maxBounds:{
+			southWest:{
+				lat:-80,
+				lng:-170
+			},
+			northEast:{
+				lat:80,
+				lng:170
+			}
+		},
+		defaults: {
+			maxZoom:14,
+			minZoom:4,
+			scrollWheelZoom: true,
+			zoomAnimation: true,
+			zoomControl: true
+		}
+	});
 })
+
 // WALKTHROUGH
 .controller('WalkthroughCtrl', function($scope, $state) {
 	$scope.goToLogIn = function(){
@@ -179,12 +206,6 @@ angular.module('MapAble.controllers', [])
 				return true;
 			}
 		});
-	};
-})
-
-.controller('InAppBrowserCtrl', function($scope) {
-	$scope.openBrowser = function(){
-		window.open('http://www.google.com', '_blank', 'location=yes');
 	};
 })
 
@@ -452,62 +473,12 @@ angular.module('MapAble.controllers', [])
 
 .controller("MapController", [ '$scope', '$log', '$http', 'leafletData', function($scope, $log, $http, leafletData) {
 
-			angular.extend($scope, {
-				center: {
-				    lat: 40,
-				    lng: 20,
-				    zoom: 4
-				},
-				layers: {
-
-				},
-				defaults: {
-					zoomAnimation: false,
-					zoomControl: false
-				}
-			});
-
-			angular.extend($scope, {
-				center2: {
-					 lat: 40,
-					 lng: -60,
-					 zoom: 4
-				},
-				layers2: {
-
-				},
-				defaults2: {
-					zoomAnimation: false,
-					zoomControl: false
-				}
-			});
-
-		  //Setting variables
-			var tileOptions = {
-				tilesize: 128,
-				maxZoom: 15,  // max zoom to preserve detail on
-				tolerance: 5, // simplification tolerance (higher means simpler)
-				extent: 4096, // tile extent (both width and height)
-				buffer: 128,   // tile buffer on each side
-				debug: 0,      // logging level (0 to disable, 1 or 2)
-				indexMaxZoom: 0,        // max zoom in the initial tile index
-				indexMaxPoints: 10, // max number of points per tile in the index
-			};
-
-			var _BaseCountryLayer = geojsonvt(countriesData, tileOptions);
-			var _BaselandScapeLayer = geojsonvt(usSatesData, tileOptions);
-			var pad = 0;
-
+			var _BaseCountryLayer = geojsonvt(countriesData);
 			CenterMap(_BaseCountryLayer, "CountriesBase", "map1")
-			CenterMap(_BaselandScapeLayer, "LandscapeBase", "map2")
-
 			function CenterMap(rawData, layerName, mapid) {
-
 				var _layer;
 				_layer = getGeojsonVectorTiles(rawData, layerName);
-
 				leafletData.getMap(mapid).then(function(map) {
-					//window.alert(1)
 					_layer.addTo(map)
 			   });
 			};
@@ -517,7 +488,27 @@ angular.module('MapAble.controllers', [])
 							.params({ debug: false, padding: 5 , layer: rawData, LayerName: layerName })
 							.drawing(drawingOnCanvas);
 			};
+      }
+	]
+)
 
+.controller("MapController2", [ '$scope', '$log', '$http', 'leafletData', function($scope, $log, $http, leafletData) {
+
+			var _BaselandScapeLayer = geojsonvt(usSatesData);
+			CenterMap(_BaselandScapeLayer, "LandscapeBase", "map2")
+			function CenterMap(rawData, layerName, mapid) {
+				var _layer;
+				_layer = getGeojsonVectorTiles(rawData, layerName);
+				leafletData.getMap(mapid).then(function(map) {
+					_layer.addTo(map)
+			   });
+			};
+
+			function getGeojsonVectorTiles (rawData, layerName) {
+					return  L.canvasTiles()
+							.params({ debug: false, padding: 5 , layer: rawData, LayerName: layerName })
+							.drawing(drawingOnCanvas);
+			};
       }
 	]
 )
