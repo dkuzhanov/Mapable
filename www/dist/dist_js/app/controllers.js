@@ -7,7 +7,7 @@ angular.module('MapAble.controllers', [])
 		center: {
 			 lat: 20,
 			 lng: -80,
-			 zoom: 4
+			 zoom: 1
 		},
 		layers: {
 		},
@@ -22,8 +22,8 @@ angular.module('MapAble.controllers', [])
 			}
 		},
 		defaults: {
-			maxZoom:14,
-			minZoom:4,
+			maxZoom:8,
+			minZoom:1,
 			scrollWheelZoom: true,
 			zoomAnimation: true,
 			zoomControl: true
