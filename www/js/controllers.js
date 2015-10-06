@@ -13,20 +13,20 @@ angular.module('MapAble.controllers', [])
 		},
 		maxBounds:{
 			southWest:{
-				lat:-80,
-				lng:-170
+				lat:-70,
+				lng:-180
 			},
 			northEast:{
 				lat:80,
-				lng:170
+				lng:180
 			}
 		},
 		defaults: {
 			maxZoom:8,
 			minZoom:1,
 			scrollWheelZoom: true,
-			zoomAnimation: true,
-			zoomControl: true
+			zoomAnimation: false,
+			zoomControl: false
 		}
 	});
 })
@@ -493,6 +493,42 @@ angular.module('MapAble.controllers', [])
 )
 
 .controller("MapController2", [ '$scope', '$log', '$http', 'leafletData', function($scope, $log, $http, leafletData) {
+
+	var markers = {
+                    m1: {
+                        lat: 41.95,
+                        lng: -87.65,
+                        message: "I'm a static marker at 0 degrees",
+                        focus: false,
+                        iconAngle: 0
+                    },
+                    m2: {
+                        lat: 41.85,
+                        lng: -87.95,
+                        message: "I'm a static marker at 270 degrees",
+                        focus: false,
+                        iconAngle: 270
+                    },
+                    m3: {
+                        lat: 41.85,
+                        lng: -87.05,
+                        message: "I'm a static marker at 90 degrees",
+                        focus: false,
+                        iconAngle: 90
+                    },
+                    m4: {
+                        lat: 41.35,
+                        lng: -87.65,
+                        message: "I'm a static marker at 180 degrees",
+                        focus: false,
+                        iconAngle: 180
+                    }
+                };
+
+	angular.extend($scope, {
+			 markers: markers
+		}
+	);
 
 			var _BaselandScapeLayer = geojsonvt(usSatesData);
 			CenterMap(_BaselandScapeLayer, "LandscapeBase", "map2")
