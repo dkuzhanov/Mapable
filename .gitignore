@@ -11,8 +11,7 @@ platforms/
 <<<<<<< HEAD
 www/css/ionic.app.min.css
 www/css/ionic.app.css
-//www/lib/
-www/lib/
+
 www/dist/
 *.log
 =======

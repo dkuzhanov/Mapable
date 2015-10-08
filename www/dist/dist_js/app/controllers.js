@@ -2,28 +2,28 @@ angular.module('MapAble.controllers', [])
 
 // APP
 .controller('AppCtrl', ['$scope', function($scope) {
-	window.alert(9)
+	//window.alert(9)
 	angular.extend($scope, {
 		center: {
 			 lat: 20,
 			 lng: -80,
-			 zoom: 1
+			 zoom: 2
 		},
 		layers: {
 		},
 		maxBounds:{
 			southWest:{
-				lat:-70,
+				lat:-75,
 				lng:-180
 			},
 			northEast:{
-				lat:80,
+				lat:85,
 				lng:180
 			}
 		},
 		defaults: {
 			maxZoom:8,
-			minZoom:1,
+			minZoom:2,
 			scrollWheelZoom: true,
 			zoomAnimation: false,
 			zoomControl: false
