@@ -25,7 +25,9 @@ angular.module('MapAble.controllers', [])
 			maxZoom:8,
 			minZoom:2,
 			scrollWheelZoom: true,
-			zoomAnimation: false,
+			zoomAnimation: true,
+			bounceAtZoomLimits: false,
+			worldCopyJump:false,
 			zoomControl: false
 		}
 	});
