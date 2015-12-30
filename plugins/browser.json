@@ -1,0 +1,60 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "com.ionic.keyboard": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "com.phonegap.plugins.PushPlugin": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "com.rjfun.cordova.iad": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "com.synconset.imagepicker": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "cordova-plugin-admobpro": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "cordova-plugin-extension": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "cordova-plugin-globalization": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "de.appplant.cordova.plugin.email-composer": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "nl.x-services.plugins.socialsharing": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        },
+        "org.pushandplay.cordova.apprate": {
+            "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
+        }
+    },
+    "dependent_plugins": {}
+}

@@ -238,11 +238,10 @@
         },
         "org.pushandplay.cordova.apprate": {
             "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
-        }
-    },
-    "dependent_plugins": {
+        },
         "cordova-plugin-extension": {
             "PACKAGE_NAME": "com.msuappdeveloper.TheMap"
         }
-    }
+    },
+    "dependent_plugins": {}
 }

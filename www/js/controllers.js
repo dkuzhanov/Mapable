@@ -3,6 +3,7 @@ angular.module('MapAble.controllers', [])
 // APP
 .controller('AppCtrl', function($scope) {
 	//window.alert(9)
+
 	angular.extend($scope, {
 		center: {
 			 lat: 20,
@@ -26,11 +27,10 @@ angular.module('MapAble.controllers', [])
 			minZoom:2,
 			scrollWheelZoom: true,
 			zoomAnimation: true,
-			bounceAtZoomLimits: false,
-			worldCopyJump:false,
 			zoomControl: false
 		}
 	});
+
 })
 
 // WALKTHROUGH
@@ -475,8 +475,24 @@ angular.module('MapAble.controllers', [])
 
 .controller("MapController", [ '$scope', '$log', '$http', 'leafletData', function($scope, $log, $http, leafletData) {
 
-			var _BaseCountryLayer = geojsonvt(countriesData);
-			CenterMap(_BaseCountryLayer, "CountriesBase", "map1")
+			var _poly0 = geojsonvt(coastline);
+			var _poly200 = geojsonvt(poly200);
+			var _poly500 = geojsonvt(poly500);
+			var _poly1000 = geojsonvt(poly1000);
+			var _poly2000 = geojsonvt(poly2000);
+			var _poly3000 = geojsonvt(poly3000);
+			var _poly4000 = geojsonvt(poly4000);
+			var _poly5000 = geojsonvt(poly5000);
+
+			CenterMap(_poly0,	  "LayerPoly0", "map1")
+			CenterMap(_poly200, "LayerPoly200", "map1")
+			CenterMap(_poly500, "LayerPoly500", "map1")
+			CenterMap(_poly1000, "LayerPoly1000", "map1")
+			CenterMap(_poly2000, "LayerPoly2000", "map1")
+			CenterMap(_poly3000, "LayerPoly3000", "map1")
+			CenterMap(_poly4000, "LayerPoly4000", "map1")
+			CenterMap(_poly5000, "LayerPoly5000", "map1")
+
 			function CenterMap(rawData, layerName, mapid) {
 				var _layer;
 				_layer = getGeojsonVectorTiles(rawData, layerName);
@@ -490,7 +506,12 @@ angular.module('MapAble.controllers', [])
 							.params({ debug: false, padding: 5 , layer: rawData, LayerName: layerName })
 							.drawing(drawingOnCanvas);
 			};
-      }
+
+			$scope.$on('leafletDirectiveMap.contextmenu', function(e) {
+					countryClick(e.target);
+			});
+
+		}
 	]
 )
 
@@ -500,31 +521,39 @@ angular.module('MapAble.controllers', [])
                     m1: {
                         lat: 41.95,
                         lng: -87.65,
-                        message: "I'm a static marker at 0 degrees",
+                        message: "I'm a static marker at 0 dedfsnlkdfjsldkfjsdlkjflskdjflkdsjgrees",
                         focus: false,
-                        iconAngle: 0
+								label: {
+                            message: "Hey, drag me if you want",
+                            options: {
+                                noHide: true
+                            }
+								}
                     },
                     m2: {
                         lat: 41.85,
                         lng: -87.95,
                         message: "I'm a static marker at 270 degrees",
-                        focus: false,
-                        iconAngle: 270
+                        focus: false
                     },
                     m3: {
                         lat: 41.85,
                         lng: -87.05,
                         message: "I'm a static marker at 90 degrees",
-                        focus: false,
-                        iconAngle: 90
+                        focus: false
                     },
                     m4: {
                         lat: 41.35,
                         lng: -87.65,
                         message: "I'm a static marker at 180 degrees",
                         focus: false,
-                        iconAngle: 180
-                    }
+								label: {
+                            message: "Hey, drag me if you want",
+                            options: {
+                                noHide: true
+                            }
+								 }
+						  }
                 };
 
 	angular.extend($scope, {
@@ -553,6 +582,10 @@ angular.module('MapAble.controllers', [])
 )
 
 
+function countryClick(e) {
+		console.log(e);
+}
+
 function drawingOnCanvas(canvasOverlay, params) {
 	var pad = 0;
 	var bounds = params.bounds;
@@ -575,7 +608,7 @@ function drawingOnCanvas(canvasOverlay, params) {
 			return;
 	}
 			ctx.clearRect(0, 0, params.canvas.width, params.canvas.height);
-			ctx.strokeStyle = '#d1f7ff';
+			ctx.strokeStyle = '#b9b991';
 			ctx.lineWidth = 0.5;
 
 			var features = tile.features;
@@ -613,34 +646,35 @@ function drawingOnCanvas(canvasOverlay, params) {
 //apply styles
 function GetFeatureColor(LayerName, tags){
 	var color
-	//window.alert(tags.FIPS_CNTRY);
-	if (LayerName === "CountriesBase") {
-		switch(tags.FIPS_CNTRY){
-			 case "US":
-				  color = 'rgba(250,0,0,1)';
+
+		switch(LayerName){
+			 case "LayerPoly0":
+				  color = 'rgba(204,231,140,1)';
 				  break;
-			 case "UK":
-					color = 'rgba(0,250,0,1)';
+			 case "LayerPoly200":
+					color = 'rgba(245,247,210,1)';
 					break;
-			 case "CA":
-				 color = 'rgba(0,250,124,1)';
+			 case "LayerPoly500":
+				 color = 'rgba(237,242,80,1)';
 				 break;
-			 case "AU":
-				 color = 'rgba(0,25,250,1)';
+			 case "LayerPoly1000":
+				 color = 'rgba(245,226,19,1)';
 				 break;
-			 case "AS":
-				 color = 'rgba(120,25,250,1)';
+			 case "LayerPoly2000":
+				 color = 'rgba(227,207,26,1)';
 				 break;
-			 case "KZ":
-				 color = 'rgba(120,125,250,1)';
+			 case "LayerPoly3000":
+				 color = 'rgba(221,191,56,1)';
 				 break;
-			 case "UZ":
-				color = 'rgba(120,125,25,1)';
+			 case "LayerPoly4000":
+				color = 'rgba(214,179,36,1)';
 				break;
+			case "LayerPoly5000":
+  				color = 'rgba(214,156,36,1)';
+  				break;
 			 default:
 				 color = 'rgba(160,160,160,1)';
 				 break;
-		}
 	}
 	return color;
 }
