@@ -11,6 +11,18 @@ angular.module('MapAble.controllers', [])
 			 zoom: 2
 		},
 		layers: {
+            overlays: {
+                northTaiwan: {
+                    name: "North cities",
+                    type: "markercluster",
+                    visible: true
+                },
+                southTaiwan: {
+                    name: "South cities",
+                    type: "markercluster",
+                    visible: false
+                }
+            }
 		},
 		maxBounds:{
 			southWest:{
@@ -26,8 +38,11 @@ angular.module('MapAble.controllers', [])
 			maxZoom:8,
 			minZoom:2,
 			scrollWheelZoom: true,
-			zoomAnimation: true,
-			zoomControl: false
+			zoomAnimation: false,
+            fadeAnimation: false,
+            markerZoomAnimation: false,
+            animate: false,
+            zoomControl: false
 		}
 	});
 
@@ -475,23 +490,68 @@ angular.module('MapAble.controllers', [])
 
 .controller("MapController", [ '$scope', '$log', '$http', 'leafletData', function($scope, $log, $http, leafletData) {
 
-			var _poly0 = geojsonvt(coastline);
-			var _poly200 = geojsonvt(poly200);
-			var _poly500 = geojsonvt(poly500);
-			var _poly1000 = geojsonvt(poly1000);
-			var _poly2000 = geojsonvt(poly2000);
-			var _poly3000 = geojsonvt(poly3000);
-			var _poly4000 = geojsonvt(poly4000);
-			var _poly5000 = geojsonvt(poly5000);
 
-			CenterMap(_poly0,	  "LayerPoly0", "map1")
-			CenterMap(_poly200, "LayerPoly200", "map1")
-			CenterMap(_poly500, "LayerPoly500", "map1")
-			CenterMap(_poly1000, "LayerPoly1000", "map1")
-			CenterMap(_poly2000, "LayerPoly2000", "map1")
-			CenterMap(_poly3000, "LayerPoly3000", "map1")
-			CenterMap(_poly4000, "LayerPoly4000", "map1")
-			CenterMap(_poly5000, "LayerPoly5000", "map1")
+    var icons;
+    icons = {
+        emptydot: {
+            type: 'div',
+            iconSize: [0, 0]
+        },
+        mountain: {
+            iconUrl: 'img/Mountain-vector-simple.png',
+            iconRetinaUrl: 'img/Mountain-vector-simple.png',
+            iconSize: [36, 28],
+            iconAnchor: [35, 18],
+            popupAnchor: [-3, -6]
+        },
+		valley: {
+			iconUrl: 'img/valley-vector-simple.png',
+			iconRetinaUrl: 'img/valley-vector-simple.png',
+			iconSize: [45, 35],
+			iconAnchor: [35, 18],
+			popupAnchor: [-3, -6]
+		}
+
+    };
+
+	var markers = {
+		m1: {lat: 43.95, lng: 85.65, focus: true, icon: icons.emptydot, label: {message: "Himalayas", options: { noHide: true }}},
+		m3: {lat: 31.85, lng: -97.05, message: "I'm a static marker at 90 degrees", icon: icons.valley, layer: "northTaiwan", focus: false, label: {	message: "Buff Mountain (1987)", options: {	noHide: true}}},
+		m0:{lat:-3.075, lng:37.353, icon: icons.mountain, focus: false, label: {message:"Mt. Kilimanjaro (5895m)", options: { noHide: true}}},
+		m4: {lat: 41.35, lng: -107.65, icon:icons.mountain, layer: "northTaiwan", focus: false, label: { message: "aaa Buff Mountain (1987)", options: {noHide: true}},message: "I'm a static marker at 180 degrees",}
+	};
+
+	angular.extend($scope, {
+        markers: markers,
+        overlays: {
+                northTaiwan: {
+                    type: "markercluster",
+                    visible: false
+            }
+        }
+    }
+	);
+
+	var _Layerpoly0 = geojsonvt(_coastline);
+	var _Layerpoly200 = geojsonvt(_poly200);
+	var _Layerpoly500 = geojsonvt(_poly500);
+	var _Layerpoly1000 = geojsonvt(_poly1000);
+	var _Layerpoly2000 = geojsonvt(_poly2000);
+	var _Layerpoly3000 = geojsonvt(_poly3000);
+	var _Layerpoly4000 = geojsonvt(_poly4000);
+	var _Layerpoly5000 = geojsonvt(_poly5000);
+	var _LayerIce = geojsonvt(_ice);
+
+	CenterMap(_Layerpoly0,	  "LayerPoly0", "map1")
+	CenterMap(_Layerpoly200, "LayerPoly200", "map1")
+	CenterMap(_Layerpoly500, "LayerPoly500", "map1")
+	CenterMap(_Layerpoly1000, "LayerPoly1000", "map1")
+	CenterMap(_Layerpoly2000, "LayerPoly2000", "map1")
+	CenterMap(_Layerpoly3000, "LayerPoly3000", "map1")
+	CenterMap(_Layerpoly4000, "LayerPoly4000", "map1")
+	CenterMap(_Layerpoly5000, "LayerPoly5000", "map1")
+	CenterMap(_LayerIce, "Layerice", "map1")
+
 
 			function CenterMap(rawData, layerName, mapid) {
 				var _layer;
@@ -507,9 +567,9 @@ angular.module('MapAble.controllers', [])
 							.drawing(drawingOnCanvas);
 			};
 
-			$scope.$on('leafletDirectiveMap.contextmenu', function(e) {
-					countryClick(e.target);
-			});
+			//$scope.$on('leafletDirectiveMap.contextmenu', function(e) {
+			//		countryClick(e.target);
+			//});
 
 		}
 	]
@@ -517,7 +577,7 @@ angular.module('MapAble.controllers', [])
 
 .controller("MapController2", [ '$scope', '$log', '$http', 'leafletData', function($scope, $log, $http, leafletData) {
 
-	var markers = {
+    var markers = {
                     m1: {
                         lat: 41.95,
                         lng: -87.65,
@@ -561,8 +621,8 @@ angular.module('MapAble.controllers', [])
 		}
 	);
 
-			var _BaselandScapeLayer = geojsonvt(usSatesData);
-			CenterMap(_BaselandScapeLayer, "LandscapeBase", "map2")
+			//var _BaselandScapeLayer = geojsonvt(usSatesData);
+			//CenterMap(_BaselandScapeLayer, "LandscapeBase", "map2")
 			function CenterMap(rawData, layerName, mapid) {
 				var _layer;
 				_layer = getGeojsonVectorTiles(rawData, layerName);
@@ -582,17 +642,44 @@ angular.module('MapAble.controllers', [])
 )
 
 
-function countryClick(e) {
-		console.log(e);
-}
+//function countryClick(e) {
+//		console.log(e);
+//}
+
 
 function drawingOnCanvas(canvasOverlay, params) {
-	var pad = 0;
-	var bounds = params.bounds;
+
+    var pad = 0;
 	params.tilePoint.z = params.zoom;
 	var _canvas = params.canvas;
 	var ctx = params.canvas.getContext('2d');
 	ctx.globalCompositeOperation = 'source-over';
+
+    var zParam = params.tilePoint.z
+    var xParam = params.tilePoint.x
+
+    if (zParam == 2){
+        if (xParam < 0 || xParam > 3 ){
+            return;
+        }
+    }
+    if (zParam == 3){
+        if ( xParam < 0 || xParam > 7 ){
+            return;
+        }
+    }
+
+    if (zParam == 4){
+        if (xParam < 0 || xParam > 15 ){
+            return;
+        }
+    }
+
+    if (zParam == 5){
+        if ( xParam < 0 || xParam > 31 ){
+            return;
+        }
+    }
 
 	if ('devicePixelRatio' in window) {
 	  if (window.devicePixelRatio > 1) {
@@ -603,11 +690,14 @@ function drawingOnCanvas(canvasOverlay, params) {
 		  ctx.scale(2,2);
 	  }
   };
-	var tile = params.layer.getTile(params.tilePoint.z, params.tilePoint.x, params.tilePoint.y);
-	if (!tile) {
-			return;
+	var tile = params.layer.getTile(zParam, xParam, params.tilePoint.y);
+
+    if (!tile) {
+        return;
 	}
-			ctx.clearRect(0, 0, params.canvas.width, params.canvas.height);
+
+
+    ctx.clearRect(0, 0, params.canvas.width, params.canvas.height);
 			ctx.strokeStyle = '#b9b991';
 			ctx.lineWidth = 0.5;
 
@@ -672,9 +762,13 @@ function GetFeatureColor(LayerName, tags){
 			case "LayerPoly5000":
   				color = 'rgba(214,156,36,1)';
   				break;
-			 default:
+			case "Layerice":
+				color = 'rgba(214,242,237,1)';
+				break;
+			default:
 				 color = 'rgba(160,160,160,1)';
 				 break;
+
 	}
 	return color;
 }

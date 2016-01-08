@@ -118,7 +118,7 @@
 	margin-left: 10px;
 	}
 .leaflet-right .leaflet-control {
-	margin-right: 10px;
+	margin-right: -100px;
 	}
 
 
@@ -181,8 +181,8 @@
 /* visual tweaks */
 
 .leaflet-container {
-	background: #d1f7ff;
-	outline: 0;
+	background-image: url("images/ocean.png");
+	background-repeat:repeat;
 	}
 .leaflet-container a {
 	color: #0078A8;
